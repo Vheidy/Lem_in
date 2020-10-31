@@ -6,7 +6,7 @@
 #    By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/09 21:38:06 by vheidy            #+#    #+#              #
-#    Updated: 2020/10/13 16:28:36 by vheidy           ###   ########.fr        #
+#    Updated: 2020/10/29 16:44:02 by vheidy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ $(NAME): $(OFILE) $(HEADER)
 	@echo -------compile library finish----------
 
 $(OFILE): %.o: %.c $(HEADER)
-	@gcc -Wall -Wextra -Werror -c $< -o $@
+	@gcc -Wall -Wextra -Werror -c $< -o $@ -g
 clean:
 	@rm -f $(OFILE)
 
