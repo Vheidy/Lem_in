@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:55:25 by vheidy            #+#    #+#             */
-/*   Updated: 2020/10/31 14:34:22 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/03 18:01:22 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_node	*ft_new_list(char *name)
 	t_node	*new_list;
 
 	new_list = malloc(sizeof(t_node));
+	new_list->next = -1;
 	new_list->name = name;
 	return (new_list);
 }
@@ -56,6 +57,8 @@ void	ft_set_null(t_node *hash_tab[HT_SIZE])
 	while (++i < HT_SIZE)
 		hash_tab[i] = NULL;
 }
+
+// выводит хэш-таблицу, временная функция
 
 void	ft_print_tab(t_node *hash_tab[HT_SIZE])
 {
@@ -80,15 +83,15 @@ void	ft_print_tab(t_node *hash_tab[HT_SIZE])
 }
 
 int		main() {
-	t_node	*hash_tab[HT_SIZE];
+	// t_node	*hash_tab[HT_SIZE];
+	t_lem	st;
 
 	// if (ac != 2)
 	// 	return (0);
 	// hash_tab = malloc(sizeof(t_node));
-	ft_set_null(hash_tab);
+	// t_lem.num_ant = 0;
+	ft_set_null(st.hash_tab);
 	// printf("--ok--\n");
-	// if (!hash_tab[0])
-	// 	printf("exist\n");
-	ft_read(hash_tab); // считывает, проверяет на валидность и записывает в хэштаблицу
-	ft_print_tab(hash_tab);
+	ft_read(&st); // считывает, проверяет на валидность и записывает в хэштаблицу
+	ft_print_tab(st.hash_tab); // 
 }

@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:41 by vheidy            #+#    #+#             */
-/*   Updated: 2020/10/31 14:35:03 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/05 16:19:25 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int		ft_check_name(t_node *hash_tab[HT_SIZE], char *name)
 }
 
 /* - возвращает имя комнаты - (проверка на валдиность строки с комнатой) - 
- проверка на валидность координат, первый символ, и проверка на существование комнаты с таким именем */
+ проверка на валидность координат, первый символ, 
+ и проверка на существование комнаты с таким именем */
 
 char	*ft_check_room(char *str, t_node *hash_tab[HT_SIZE])
 {
@@ -86,7 +87,7 @@ char	*ft_check_next_room(char *buf, t_node *hash_tab[HT_SIZE])
 /* добавление комнаты в хэш-таблицу  
 - если по этому индексу уже есть имя, то в след лист */
 
-void	ft_add_in_hash_tab(char *name, t_node *hash_tab[HT_SIZE])
+void	ft_add_in_hash_tab(char *name, t_node *hash_tab[HT_SIZE], int id)
 {
 	int		index;
 	t_node	*tmp;
@@ -105,30 +106,88 @@ void	ft_add_in_hash_tab(char *name, t_node *hash_tab[HT_SIZE])
 			tmp = tmp->next;
 		tmp->next = ft_new_list(name);
 	}
+	tmp->id = id;
 }
 
-int		ft_read(t_node *hash_tab[HT_SIZE])
+// проверка строки с линком на валидность и добавление его в список смежности
+
+int		ft_check_link(char *buf, t_node *hash_tab[HT_SIZE])
+{
+	char	*name_f;
+	char	*name_s;
+	char	*tmp;
+	char	*end;
+	
+	if (!(tmp = ft_strchr(buf, '-')))
+		return (0);
+	end = buf;
+	while (*end)
+		end++;
+	if (!(name_f = ft_strsub(buf, 0, tmp - buf)) || \
+	!(name_s = ft_strsub(buf, tmp - buf + 1, end - tmp))) // malloc * 2
+		return (0);
+	if (!(ft_check_name(hash_tab, name_f) && \
+	ft_check_name(hash_tab, name_s)))
+		return (0);
+	
+}
+
+int		ft_parse_room(t_lem *st, int red, char *buf, char *name)
+{
+	int	id;
+
+	id = 0;
+	if (buf[0] == '#')
+	{
+		if (!ft_strcmp(buf,  "##start"))
+			ft_add_in_hash_tab((st->start = \
+			ft_check_next_room(buf, st->hash_tab)), st->hash_tab, id++);
+		else if (!ft_strcmp(buf,  "##end"))
+			ft_add_in_hash_tab((st->end = \
+			ft_check_next_room(buf, st->hash_tab)), st->hash_tab, id++);
+	}
+	else if ((name = ft_check_room(buf, st->hash_tab)))
+		ft_add_in_hash_tab(name, st->hash_tab, id++);
+	else if (ft_add_check_link(buf, st->hash_tab))
+		return (1);
+	else
+		return (0);
+	return (1);
+}
+
+// void	ft_parse(t_lem *st, int red, char *buf, char *name)
+// {
+
+// 	while ((red = get_next_line(0, &buf)))
+// 	{
+// 		if (!ft_parse_room(st, red, *buf, name) || \
+// 		!ft_add_check_link(buf, st->hash_tab))
+// 			error();
+// 		free(buf);
+// 	}
+// }
+
+// общая функция считывания - считывает количество элементов и 
+// передает дальше для считывания комнат и связей
+
+int		ft_read(t_lem *st)
 {
 	int		red;
 	char	*buf;
-	char	*start;
-	char	*end;
 	char	*name;
 
-	while ((red = get_next_line(0, &buf)))
+	if ((red = get_next_line(0, &buf)))
 	{
-		if (buf[0] == '#')
-		{
-			if (!ft_strcmp(buf,  "##start"))
-				ft_add_in_hash_tab((start = ft_check_next_room(buf, hash_tab)), hash_tab);
-			else if (!ft_strcmp(buf,  "##end"))
-				ft_add_in_hash_tab((end = ft_check_next_room(buf, hash_tab)), hash_tab);
-		}
-		else if ((name = ft_check_room(buf, hash_tab)))
-			ft_add_in_hash_tab(name, hash_tab);
-		else
-			error();
+		st->num_ant = ft_atoi(buf);
 		free(buf);
+		while ((red = get_next_line(0, &buf)))
+		{
+			if (!ft_parse_room(st, red, *buf, name))
+				error();
+			free(buf);
+		}
 	}
+	else
+		error();
 	return (0);
 }

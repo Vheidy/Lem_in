@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/10/31 14:32:24 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/03 18:01:02 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,20 @@
 typedef struct			s_node
 {
 	char				*name;
+	int					id;
 	struct s_node		*next;
 }						t_node;
 
-int		ft_read(t_node *hash_tab[HT_SIZE]);
+typedef struct			s_lem
+{
+	char				*start;
+	char				*end;
+	t_node				*hash_tab[HT_SIZE];
+	long long int		num_ant;
+}						t_lem;
+
+
+int		ft_read(t_lem *st);
 void	error();
 int		ft_hasher(char *name);
 t_node	*ft_new_list(char *name);
