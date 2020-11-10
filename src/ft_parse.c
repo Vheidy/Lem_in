@@ -6,11 +6,25 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:41 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/05 16:19:25 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/10 14:47:29 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+/* Задачи:
+Добавить проверку на нужный порядок (количество муравьев - комнаты - связи) - DONE
+Проверка на существование комнат в линках
+Добавить создание и запись в файл для вывода в конце
+Добавить считывание из хэш-таблицы в новые структуры
+Добавить считывание линков в новые структуры
+Инициализация новых структур
+
+Итог:
+Должна быть полностью считана и записана в структуры ферма 
+и создан файл для дальнейшего вывода
+Проверка на существование пути от старта к финишу (при bfs)
+*/
 
 // проверка на существование уже такого имени
 
@@ -52,7 +66,8 @@ char	*ft_check_room(char *str, t_node *hash_tab[HT_SIZE])
 	if (!(name = ft_strsub(str, 0, tmp_space - str))) // malloc
 		error();
 	while (--len >= 0){
-		if (!(tmp_space[len] >= '0' && tmp_space[len] <= '9') && tmp_space[len] != ' ')
+		if (!(tmp_space[len] >= '0' && \
+		tmp_space[len] <= '9') && tmp_space[len] != ' ')
 			return (NULL);
 	}
 	elem_first = ft_atoi(tmp_space);
@@ -111,33 +126,34 @@ void	ft_add_in_hash_tab(char *name, t_node *hash_tab[HT_SIZE], int id)
 
 // проверка строки с линком на валидность и добавление его в список смежности
 
-int		ft_check_link(char *buf, t_node *hash_tab[HT_SIZE])
-{
-	char	*name_f;
-	char	*name_s;
-	char	*tmp;
-	char	*end;
+// int		ft_check_link(char *buf, t_node *hash_tab[HT_SIZE])
+// {
+// 	char	*name_f;
+// 	char	*name_s;
+// 	char	*tmp;
+// 	char	*end;
 	
-	if (!(tmp = ft_strchr(buf, '-')))
-		return (0);
-	end = buf;
-	while (*end)
-		end++;
-	if (!(name_f = ft_strsub(buf, 0, tmp - buf)) || \
-	!(name_s = ft_strsub(buf, tmp - buf + 1, end - tmp))) // malloc * 2
-		return (0);
-	if (!(ft_check_name(hash_tab, name_f) && \
-	ft_check_name(hash_tab, name_s)))
-		return (0);
+// 	if (!(tmp = ft_strchr(buf, '-')))
+// 		return (0);
+// 	end = buf;
+// 	while (*end)
+// 		end++;
+// 	if (!(name_f = ft_strsub(buf, 0, tmp - buf)) || \
+// 	!(name_s = ft_strsub(buf, tmp - buf + 1, end - tmp))) // malloc * 2
+// 		return (0);
+// 	if (!(ft_check_name(hash_tab, name_f) && \
+// 	ft_check_name(hash_tab, name_s)))
+// 		return (0);
 	
-}
+// }
 
-int		ft_parse_room(t_lem *st, int red, char *buf, char *name)
+int		ft_parse_room(t_lem *st, int *fl, char *buf)
 {
-	int	id;
+	int		id;
+	char	*name;
 
 	id = 0;
-	if (buf[0] == '#')
+	if (buf[0] == '#' && !(*fl))
 	{
 		if (!ft_strcmp(buf,  "##start"))
 			ft_add_in_hash_tab((st->start = \
@@ -146,10 +162,10 @@ int		ft_parse_room(t_lem *st, int red, char *buf, char *name)
 			ft_add_in_hash_tab((st->end = \
 			ft_check_next_room(buf, st->hash_tab)), st->hash_tab, id++);
 	}
-	else if ((name = ft_check_room(buf, st->hash_tab)))
+	else if ((name = ft_check_room(buf, st->hash_tab)) && !(*fl))
 		ft_add_in_hash_tab(name, st->hash_tab, id++);
-	else if (ft_add_check_link(buf, st->hash_tab))
-		return (1);
+	// else if (ft_add_check_link(buf, st->hash_tab))
+	// 	return (*fl = 1);
 	else
 		return (0);
 	return (1);
@@ -174,15 +190,17 @@ int		ft_read(t_lem *st)
 {
 	int		red;
 	char	*buf;
-	char	*name;
+	int		fl;
 
+	fl = 0;
 	if ((red = get_next_line(0, &buf)))
 	{
-		st->num_ant = ft_atoi(buf);
+		if (!(st->num_ant = ft_atoi(buf)))
+			error();
 		free(buf);
 		while ((red = get_next_line(0, &buf)))
 		{
-			if (!ft_parse_room(st, red, *buf, name))
+			if (!ft_parse_room(st, &fl, buf))
 				error();
 			free(buf);
 		}

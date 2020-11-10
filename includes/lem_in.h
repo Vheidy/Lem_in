@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/03 18:01:02 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/10 14:45:16 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,39 @@ typedef struct			s_lem
 	long long int		num_ant;
 }						t_lem;
 
+// struct s_room
+// {
+// 	connections	*neighbors;
+// 	int			level;
+// };
+
+// typedef struct s_room room;
+
+// struct s_connections
+// {
+// 	int		count;
+// 	room	*rooms;
+// };
+
+// typedef struct s_connections connections;
+
+// struct s_ant
+// {
+// 	room	*current_room;
+// 	room	*target_room;
+// 	int		id;
+// };
+
+// typedef struct s_ant ant;
+
+// struct s_farm
+// {
+// 	room	*start_room;
+// 	room	*target_room;
+// 	// ant		*ants;
+// 	// ant		**ants;
+// 	int		count_ants;
+// };
 
 int		ft_read(t_lem *st);
 void	error();

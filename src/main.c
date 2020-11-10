@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:55:25 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/03 18:01:22 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/10 14:44:55 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_node	*ft_new_list(char *name)
 	t_node	*new_list;
 
 	new_list = malloc(sizeof(t_node));
-	new_list->next = -1;
+	new_list->next = NULL;
 	new_list->name = name;
 	return (new_list);
 }
