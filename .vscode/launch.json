@@ -1,0 +1,30 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "gcc - Build and debug active file",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/lem-in",
+			"args": ["3\n", "##start\n", "0 1 0\n", "##end\n", "1 5 0\n", "4 9 8\n", "2 9 0\n", "3 13 0\n", "0-2\n", "2-3\n", "3-1\n", q"3-4\n"
+			],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{
+					"description": "Enable pretty-printing for gdb",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				}
+			],
+			"preLaunchTask": "C/C++: gcc build active file",
+			"miDebuggerPath": "/usr/bin/gdb"
+		}
+	]
+}
