@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/13 19:26:40 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/17 12:55:18 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ typedef struct s_farm
 	int		count_ants;
 }				farm;
 
+// void	ft_print_tab(t_node *hash_tab[HT_SIZE]);
+// void	ft_print_farm(farm *farm);
+void	ft_algo(farm	*farm);
 void	ft_read_ants(char **buf, t_lem *st);
 int		ft_check_name(t_node *hash_tab[HT_SIZE], char *name);
 int		ft_init_farm(farm *farm, t_lem *st);
@@ -74,8 +77,6 @@ int		ft_check_link(char *buf, t_node *hash_tab[HT_SIZE]);
 t_node	*ft_get_elem(char *name, t_node *hash_tab[HT_SIZE]);
 int		ft_parse_room(t_lem *st, int fl, char **buf, farm *farm);
 void	ft_parse_link(char *buf, farm *farm, t_lem *st);
-// void	ft_print_farm(farm *farm);
-// void	ft_print_tab(t_node *hash_tab[HT_SIZE]);
 int		ft_read(t_lem *st, farm	*farm);
 void	error();
 int		ft_hasher(char *name);

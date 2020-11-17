@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:41 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/13 18:31:25 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/15 19:29:40 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ room	*ft_create_room(int id, char *name)
 	new_room = malloc(sizeof(room));
 	new_room->neighbors = NULL;
 	new_room->id = id;
-	new_room->level = 0;
+	new_room->level = -1;
 	new_room->count_link = 0;
 	new_room->name = name;
 	return (new_room);
@@ -114,7 +114,8 @@ int		ft_read(t_lem *st, farm	*farm)
 	free(buf);
 	while ((red = get_next_line(0, &buf)))
 	{
-		ft_parse_link(buf, farm, st);
+		if(buf[0] != '#')
+			ft_parse_link(buf, farm, st);
 		free(buf);
 	}
 	return (0);

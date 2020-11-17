@@ -33,13 +33,13 @@ lib:
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
-$(NAME): $(OBJ_DIR) $(HEADER) $(LIB_H) # $(OBJ)
+$(NAME): $(OBJ_DIR) $(OBJ) $(HEADER) $(LIB_H)
 	@make -C $(LIB_DIR)
-	$(COMP) $(SRC_DIR) $(LIBFTA) $(HEAD) $(LIBFT_H) -o $(NAME)
+	$(COMP) $(OBJ) $(LIBFTA) $(HEAD) $(LIBFT_H) -o $(NAME)
 	@echo -------compile lem-in finish----------
 
-# $(OBJ_DIR)%.o: $(DIR)%.c $(HEADER)
-# 	@$(COMP) -c $< -o $@
+$(OBJ_DIR)%.o: $(DIR)%.c $(HEADER)
+	@$(COMP) $(HEAD) $(LIBFT_H) -c $< -o $@
 
 clean:
 	@/bin/rm -rf $(OBJ_DIR)
