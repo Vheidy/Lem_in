@@ -6,11 +6,15 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:55:25 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/17 12:55:07 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/19 16:18:26 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+/*
+Добавить посещаемые вершины
+*/
 
 void	error()
 {
@@ -73,5 +77,7 @@ int		main() {
 
 	ft_set_null(&st);
 	ft_read(&st, &farm);
+	ft_print_farm(&farm);
+	ft_algo(&farm);
 	return (0);
 }

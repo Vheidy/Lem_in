@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:09 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/13 18:40:17 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/19 15:46:13 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,35 @@ int		ft_check_link(char *buf, t_node *hash_tab[HT_SIZE])
 	return (1);
 }
 
+t_link	*ft_new_link(int id_f, int id_s, int cap)
+{
+	t_link	*new_link;
+
+	new_link = malloc(sizeof(t_link));
+	new_link->next = NULL;
+	new_link->parent = id_f;
+	new_link->curr = id_s;
+	new_link->flow = 0;
+	new_link->cap = cap;
+	return (new_link);
+}
+
 /*
  ** добавляет линк в соседей
 */
 void	ft_add_link(farm *farm, int id_f, int id_s, \
-char *name_s)
+int cap)
 {
-	t_node *tmp;
+	t_link *tmp;
 
-	tmp = farm->rooms[id_f]->neighbors;
+	tmp = farm->rooms[id_f]->edges;
 	if (!tmp)
-		farm->rooms[id_f]->neighbors = ft_new_list(name_s, id_s);
+		farm->rooms[id_f]->edges = ft_new_link(id_f, id_s, cap);
 	else
 	{
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = ft_new_list(name_s, id_s);
+		tmp->next = ft_new_link(id_f, id_s, cap);
 	}
 }
 
@@ -114,6 +127,6 @@ void	ft_parse_link(char *buf, farm *farm, t_lem *st)
 		error();
 	id_f = ft_get_elem(name_f, st->hash_tab)->id;
 	id_s = ft_get_elem(name_s, st->hash_tab)->id;
-	ft_add_link(farm, id_f, id_s, name_s);
-	ft_add_link(farm, id_s, id_f, name_f);
+	ft_add_link(farm, id_f, id_s, 1);
+	ft_add_link(farm, id_s, id_f, 1);
 }

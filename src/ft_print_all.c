@@ -37,22 +37,22 @@ void	ft_print_farm(farm *farm)
 	printf("ID end: %d\n", farm->id_end);
 	while (i < farm->count_rooms)
 	{
-		t_node *tmp;
-		// printf("ID: %d\n",farm->rooms[i]->id);
-		// printf("ok\n");
-		
+		t_link *tmp;
 		printf("Name room: %s\n", farm->rooms[i]->name);
-		tmp = farm->rooms[i]->neighbors;
+		printf("ID room: %d\n", farm->rooms[i]->id);
+		tmp = farm->rooms[i]->edges;
 		if (tmp)
 		{
-			printf("Name neib: %s\n", tmp->name);
+			printf("Name neib: %s\n", farm->rooms[tmp->curr]->name);
+			// printf("Cap neib: %d\n", tmp->cap);
 			// if (!ft_strcmp(tmp->name, "3"))
 			// 	printf("Name neib: %s\n", tmp->next->name);
 			while (tmp->next)
 			{
 				// printf("ok\n");
 				tmp = tmp->next;
-				printf("Name neib: %s\n", tmp->name);
+				printf("Name neib: %s\n", farm->rooms[tmp->curr]->name);
+				// printf("Cap neib: %d\n", tmp->cap);
 			}
 		}
 		printf("----\n");

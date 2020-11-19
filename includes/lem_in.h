@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/17 12:55:18 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/19 16:46:04 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,35 @@ typedef struct			s_lem
 	long long int		num_ant;
 }						t_lem;
 
+typedef struct s_link
+{
+	int				parent;
+	int				curr;
+	int				flow;
+	int				cap;
+	struct s_link	*next;
+}				t_link;
+
+
 typedef struct s_room
 {
-	t_node		*neighbors;
+	// t_node		*neighbors;
+	t_link		*edges;
+	int			in;
+	int			out;
+	int			in_out;
 	int			id;
 	char		*name;
 	int			level;
 	int			count_link;
 }				room;
+
+typedef struct		s_route
+{
+	int				*tops;
+	struct s_route	*next;
+}					t_route;
+
 
 // struct s_ant
 // {
@@ -67,9 +88,10 @@ typedef struct s_farm
 	int		count_ants;
 }				farm;
 
-// void	ft_print_tab(t_node *hash_tab[HT_SIZE]);
-// void	ft_print_farm(farm *farm);
-void	ft_algo(farm	*farm);
+t_link	*ft_new_link(int id_f, int id_s, int cap);
+void	ft_print_tab(t_node *hash_tab[HT_SIZE]);
+void	ft_print_farm(farm *farm);
+void	ft_algo(farm *farm);
 void	ft_read_ants(char **buf, t_lem *st);
 int		ft_check_name(t_node *hash_tab[HT_SIZE], char *name);
 int		ft_init_farm(farm *farm, t_lem *st);
