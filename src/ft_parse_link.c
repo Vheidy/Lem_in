@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_link.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:09 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/19 15:46:13 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/21 01:56:53 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "../includes/lem_in.h"
 
 /*
  ** считывание муравьев и проверка что в первой строке число
@@ -20,6 +20,8 @@ void	ft_read_ants(char **buf, t_lem *st)
 	int red;
 	char *tmp;
 
+	red = 0;
+	tmp = 0;
 	if ((red = get_next_line(0, buf)))
 	{
 		tmp = *buf;
@@ -47,6 +49,8 @@ char **name_f, char **name_s)
 	char	*tmp;
 	char	*end;
 
+	tmp = 0;
+	end = 0;
 	if (!(tmp = ft_strchr(buf, '-')))
 		return (0);
 	end = buf;
@@ -74,8 +78,8 @@ int		ft_check_link(char *buf, t_node *hash_tab[HT_SIZE])
 	if (!ft_work_links(buf, hash_tab, \
 	&name_f, &name_s))
 		return (0);
-	free(name_s);
-	free(name_f);
+	ft_strdel(&name_s);
+	ft_strdel(&name_f);
 	return (1);
 }
 
@@ -83,11 +87,11 @@ t_link	*ft_new_link(int id_f, int id_s, int cap)
 {
 	t_link	*new_link;
 
-	new_link = malloc(sizeof(t_link));
-	new_link->next = NULL;
+	new_link = ft_memalloc(sizeof(t_link));
+	if (new_link == NULL)
+		return NULL;
 	new_link->parent = id_f;
 	new_link->curr = id_s;
-	new_link->flow = 0;
 	new_link->cap = cap;
 	return (new_link);
 }
@@ -123,6 +127,8 @@ void	ft_parse_link(char *buf, farm *farm, t_lem *st)
 
 	name_f = NULL;
 	name_s = NULL;
+	id_f = 0;
+	id_s = 0;
 	if (!ft_work_links(buf, st->hash_tab, &name_f, &name_s)) // malloc * 2
 		error();
 	id_f = ft_get_elem(name_f, st->hash_tab)->id;

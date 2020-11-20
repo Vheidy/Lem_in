@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_room.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:19 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/13 18:38:36 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/21 02:04:31 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "../includes/lem_in.h"
 
 /*
  ** проверка на существование уже такого имени (если существет - 0)
@@ -78,7 +78,7 @@ char	*ft_check_next_room(char **buf, t_node *hash_tab[HT_SIZE])
 	char	*name;
 
 	name = NULL;
-	free(*buf);
+	ft_strdel(buf);
 	if ((red = get_next_line(0, buf)))
 	{
 		if (!(name = ft_check_room(*buf, hash_tab)))

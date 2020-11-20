@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/19 16:46:04 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/21 02:07:41 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h> // del
-# include "libft.h"
+# include <stdio.h>
+# include "../libft/libft.h"
 
 # define HT_SIZE 500
 # define MAX_INT 2147483647
@@ -89,8 +89,6 @@ typedef struct s_farm
 }				farm;
 
 t_link	*ft_new_link(int id_f, int id_s, int cap);
-void	ft_print_tab(t_node *hash_tab[HT_SIZE]);
-void	ft_print_farm(farm *farm);
 void	ft_algo(farm *farm);
 void	ft_read_ants(char **buf, t_lem *st);
 int		ft_check_name(t_node *hash_tab[HT_SIZE], char *name);
@@ -103,5 +101,11 @@ int		ft_read(t_lem *st, farm	*farm);
 void	error();
 int		ft_hasher(char *name);
 t_node	*ft_new_list(char *name, int id);
+
+/*
+** Debug functions
+*/
+void	ft_print_tab(t_node *hash_tab[HT_SIZE]);
+void	ft_print_farm(farm *farm);
 
 #endif

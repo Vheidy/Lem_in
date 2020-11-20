@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:41 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/19 15:07:40 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/21 01:58:18 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "../includes/lem_in.h"
 
 /*
  ** создает комнату (1 малок)
@@ -20,16 +20,10 @@ room	*ft_create_room(int id, char *name)
 {
 	room	*new_room;
 
-	new_room = malloc(sizeof(room));
-	// new_room->neighbors = NULL;
-	new_room->edges= NULL;
+	new_room = ft_memalloc(sizeof(room));
 	new_room->id = id;
 	new_room->level = -1;
-	new_room->count_link = 0;
 	new_room->name = name;
-	new_room->in = 0;
-	new_room->out = 0;
-	new_room->in_out = 0;
 	return (new_room);
 }
 
@@ -92,9 +86,8 @@ int		ft_init_farm(farm *farm, t_lem *st)
 	// printf("id_end: %d\n", farm->id_end);
 	farm->count_rooms = st->count_rooms;
 	farm->count_ants = st->num_ant;
-	if (!(farm->rooms = malloc(sizeof(room*) * st->count_rooms + 1)))
+	if (!(farm->rooms = ft_memalloc(sizeof(room*) * st->count_rooms + 1)))
 		error();
-	farm->rooms[st->count_rooms] = NULL;
 	ft_farm_set_room(farm->rooms, farm->count_rooms, st);
 	return (1);
 }
@@ -115,12 +108,12 @@ int		ft_read(t_lem *st, farm	*farm)
 	if (!ft_parse_room(st, fl, &buf, farm))
 			error();
 	ft_parse_link(buf, farm, st);
-	free(buf);
+	ft_strdel(&buf);
 	while ((red = get_next_line(0, &buf)))
 	{
 		if(buf[0] != '#')
 			ft_parse_link(buf, farm, st);
-		free(buf);
+		ft_strdel(&buf);
 	}
 	return (0);
 }
