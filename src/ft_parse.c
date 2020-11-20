@@ -6,206 +6,121 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:41 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/10 14:47:29 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/19 15:07:40 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-/* Задачи:
-Добавить проверку на нужный порядок (количество муравьев - комнаты - связи) - DONE
-Проверка на существование комнат в линках
-Добавить создание и запись в файл для вывода в конце
-Добавить считывание из хэш-таблицы в новые структуры
-Добавить считывание линков в новые структуры
-Инициализация новых структур
-
-Итог:
-Должна быть полностью считана и записана в структуры ферма 
-и создан файл для дальнейшего вывода
-Проверка на существование пути от старта к финишу (при bfs)
+/*
+ ** создает комнату (1 малок)
 */
 
-// проверка на существование уже такого имени
+room	*ft_create_room(int id, char *name)
+{
+	room	*new_room;
 
-int		ft_check_name(t_node *hash_tab[HT_SIZE], char *name)
+	new_room = malloc(sizeof(room));
+	// new_room->neighbors = NULL;
+	new_room->edges= NULL;
+	new_room->id = id;
+	new_room->level = -1;
+	new_room->count_link = 0;
+	new_room->name = name;
+	new_room->in = 0;
+	new_room->out = 0;
+	new_room->in_out = 0;
+	return (new_room);
+}
+
+/*
+ ** заполняет новую структуру комнатами из хэш-таблицы
+*/
+
+void	ft_farm_set_room(room **rooms, int count, t_lem *st)
 {
 	int	i;
+	int count_room;
 	t_node *tmp;
 
-	i = ft_hasher(name);
-	tmp = hash_tab[i];
-	if (tmp && !ft_strcmp(tmp->name, name))
-			error();
-	else if (tmp)
-	{
-		while (tmp->next)
+	i = -1;
+	count_room = 0;
+	tmp = NULL;
+	while (count_room < count && ++i < 500)
+		if (st->hash_tab[i])
 		{
-			if (!ft_strcmp(tmp->name, name))
-				error();
-			tmp = tmp->next;
+			tmp = st->hash_tab[i];
+			rooms[tmp->id] = ft_create_room(tmp->id, tmp->name);
+			count_room++;
+			while (tmp->next)
+			{
+				tmp = tmp->next;
+				rooms[tmp->id] = ft_create_room(tmp->id, tmp->name);
+				count_room++;
+			}
 		}
-	}
-	return (1);
 }
 
-/* - возвращает имя комнаты - (проверка на валдиность строки с комнатой) - 
- проверка на валидность координат, первый символ, 
- и проверка на существование комнаты с таким именем */
+/*
+ ** возвращает указатель на лист с переданным именем
+*/
 
-char	*ft_check_room(char *str, t_node *hash_tab[HT_SIZE])
-{
-	char			*name;
-	long long int	elem_first;
-	long long int	elem_sec;
-	char			*tmp_space;
-	int				len;
-
-	tmp_space = ft_strchr(str, ' ');
-	len = ft_strlen(tmp_space);
-	if (!(name = ft_strsub(str, 0, tmp_space - str))) // malloc
-		error();
-	while (--len >= 0){
-		if (!(tmp_space[len] >= '0' && \
-		tmp_space[len] <= '9') && tmp_space[len] != ' ')
-			return (NULL);
-	}
-	elem_first = ft_atoi(tmp_space);
-	tmp_space = ft_strchr(tmp_space, ' ');
-	elem_sec = ft_atoi(tmp_space);
-	if (name[0] == 'L' || elem_first > MAX_INT || \
-	elem_first < MIN_INT || elem_sec > MAX_INT || \
-	elem_sec < MIN_INT || !ft_check_name(hash_tab, name))
-		return (NULL);
-	return (name);
-}
-
- // проверяет на валидность следующую строку и возвращает ее имя
-
-char	*ft_check_next_room(char *buf, t_node *hash_tab[HT_SIZE])
-{
-	int		red;
-	char	*name;
-
-	name = NULL;
-	free(buf);
-	if ((red = get_next_line(0, &buf)))
-	{
-		if (!(name = ft_check_room(buf, hash_tab)))
-			error();
-	}
-	else
-		error();
-	return (name);
-}
-
-/* добавление комнаты в хэш-таблицу  
-- если по этому индексу уже есть имя, то в след лист */
-
-void	ft_add_in_hash_tab(char *name, t_node *hash_tab[HT_SIZE], int id)
+t_node	*ft_get_elem(char *name, t_node *hash_tab[HT_SIZE])
 {
 	int		index;
 	t_node	*tmp;
 
 	index = ft_hasher(name);
 	tmp = hash_tab[index];
-	if (!hash_tab[index])
-	{
-		hash_tab[index] = malloc(sizeof(t_node));
-		hash_tab[index]->name = name;
-		hash_tab[index]->next = NULL;
-	}
-	else
-	{
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = ft_new_list(name);
-	}
-	tmp->id = id;
+	while (tmp->next && ft_strcmp(tmp->name, name))
+		tmp = tmp->next;
+	if (!tmp->next && ft_strcmp(tmp->name, name))
+		error();
+	return (tmp);
 }
 
-// проверка строки с линком на валидность и добавление его в список смежности
+/*
+ ** инициализация структуры 
+*/
 
-// int		ft_check_link(char *buf, t_node *hash_tab[HT_SIZE])
-// {
-// 	char	*name_f;
-// 	char	*name_s;
-// 	char	*tmp;
-// 	char	*end;
-	
-// 	if (!(tmp = ft_strchr(buf, '-')))
-// 		return (0);
-// 	end = buf;
-// 	while (*end)
-// 		end++;
-// 	if (!(name_f = ft_strsub(buf, 0, tmp - buf)) || \
-// 	!(name_s = ft_strsub(buf, tmp - buf + 1, end - tmp))) // malloc * 2
-// 		return (0);
-// 	if (!(ft_check_name(hash_tab, name_f) && \
-// 	ft_check_name(hash_tab, name_s)))
-// 		return (0);
-	
-// }
-
-int		ft_parse_room(t_lem *st, int *fl, char *buf)
+int		ft_init_farm(farm *farm, t_lem *st)
 {
-	int		id;
-	char	*name;
-
-	id = 0;
-	if (buf[0] == '#' && !(*fl))
-	{
-		if (!ft_strcmp(buf,  "##start"))
-			ft_add_in_hash_tab((st->start = \
-			ft_check_next_room(buf, st->hash_tab)), st->hash_tab, id++);
-		else if (!ft_strcmp(buf,  "##end"))
-			ft_add_in_hash_tab((st->end = \
-			ft_check_next_room(buf, st->hash_tab)), st->hash_tab, id++);
-	}
-	else if ((name = ft_check_room(buf, st->hash_tab)) && !(*fl))
-		ft_add_in_hash_tab(name, st->hash_tab, id++);
-	// else if (ft_add_check_link(buf, st->hash_tab))
-	// 	return (*fl = 1);
-	else
-		return (0);
+	if (!st->start || !st->end)
+		error();
+	farm->id_start = ft_get_elem(st->start, st->hash_tab)->id;
+	farm->id_end = ft_get_elem(st->end, st->hash_tab)->id;
+	// printf("id_end: %d\n", farm->id_end);
+	farm->count_rooms = st->count_rooms;
+	farm->count_ants = st->num_ant;
+	if (!(farm->rooms = malloc(sizeof(room*) * st->count_rooms + 1)))
+		error();
+	farm->rooms[st->count_rooms] = NULL;
+	ft_farm_set_room(farm->rooms, farm->count_rooms, st);
 	return (1);
 }
 
-// void	ft_parse(t_lem *st, int red, char *buf, char *name)
-// {
+/*
+ ** общая функция считывания - считывает количество муравьев и элементов и 
+ ** передает дальше для считывания комнат и связей
+*/
 
-// 	while ((red = get_next_line(0, &buf)))
-// 	{
-// 		if (!ft_parse_room(st, red, *buf, name) || \
-// 		!ft_add_check_link(buf, st->hash_tab))
-// 			error();
-// 		free(buf);
-// 	}
-// }
-
-// общая функция считывания - считывает количество элементов и 
-// передает дальше для считывания комнат и связей
-
-int		ft_read(t_lem *st)
+int		ft_read(t_lem *st, farm	*farm)
 {
 	int		red;
 	char	*buf;
 	int		fl;
 
 	fl = 0;
-	if ((red = get_next_line(0, &buf)))
-	{
-		if (!(st->num_ant = ft_atoi(buf)))
+	ft_read_ants(&buf, st);
+	if (!ft_parse_room(st, fl, &buf, farm))
 			error();
+	ft_parse_link(buf, farm, st);
+	free(buf);
+	while ((red = get_next_line(0, &buf)))
+	{
+		if(buf[0] != '#')
+			ft_parse_link(buf, farm, st);
 		free(buf);
-		while ((red = get_next_line(0, &buf)))
-		{
-			if (!ft_parse_room(st, &fl, buf))
-				error();
-			free(buf);
-		}
 	}
-	else
-		error();
 	return (0);
 }

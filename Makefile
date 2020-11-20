@@ -10,19 +10,20 @@ HEAD_DIR = includes/
 HEAD = -I $(HEAD_DIR)
 LIBFT_H = -I $(LIB_DIR)
 
-COMP = gcc -Wall -Werror -Wextra $(HEAD) $(LIBFT_H)
+COMP = gcc -Wall -Werror -Wextra
 
 DIR = src/
 
 OBJ_DIR = obj/
 
-SRCS = main.c ft_parse.c
+SRCS = main.c ft_parse.c ft_parse_room.c ft_parse_link.c ft_print_all.c
 
 C_FILE = $(SRCS)
 
 OFILE = $(C_FILE:%.c=%.o)
 
 OBJ = $(addprefix $(OBJ_DIR), $(OFILE))
+SRC_DIR = $(addprefix $(DIR), $(SRCS))
 
 all: $(NAME)
 
@@ -32,13 +33,13 @@ lib:
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
-$(NAME): $(OBJ_DIR) $(OBJ) $(HEADER) $(LIB_H)
+$(NAME): $(OBJ_DIR) $(HEADER) $(LIB_H) # $(OBJ)
 	@make -C $(LIB_DIR)
-	@$(COMP) $(LIBFTA) $(OBJ) -o $(NAME)
-	@echo -------compile len-in finish----------
+	$(COMP) $(SRC_DIR) $(LIBFTA) $(HEAD) $(LIBFT_H) -o $(NAME)
+	@echo -------compile lem-in finish----------
 
-$(OBJ_DIR)%.o: $(DIR)%.c $(HEADER)
-	@$(COMP) -c $< -o $@
+# $(OBJ_DIR)%.o: $(DIR)%.c $(HEADER)
+# 	@$(COMP) -c $< -o $@
 
 clean:
 	@/bin/rm -rf $(OBJ_DIR)
