@@ -6,7 +6,7 @@
 /*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:41 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/21 01:58:18 by asybil           ###   ########.fr       */
+/*   Updated: 2020/11/21 02:35:45 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_farm_set_room(room **rooms, int count, t_lem *st)
 	i = -1;
 	count_room = 0;
 	tmp = NULL;
-	while (count_room < count && ++i < 500)
+	while (count_room < count && ++i < HT_SIZE)
 		if (st->hash_tab[i])
 		{
 			tmp = st->hash_tab[i];
