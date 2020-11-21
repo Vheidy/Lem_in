@@ -6,15 +6,11 @@
 /*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:55:25 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/21 02:13:06 by asybil           ###   ########.fr       */
+/*   Updated: 2020/11/21 19:20:10 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
-
-/*
-Добавить посещаемые вершины
-*/
 
 void	error()
 {
@@ -57,18 +53,20 @@ t_node	*ft_new_list(char *name, int id)
 /*
  ** выставление на нул всех параметров в структуре
 */
-void	ft_set_null(t_lem *st)
+void	ft_set_null(t_parse *st)
 {
-	ft_bzero(st, sizeof(t_lem));
+	ft_bzero(st, sizeof(st));
 }
 
 int		main() {
-	t_lem	st;
+	t_parse	st;
 	farm	farm;
 
 	ft_set_null(&st);
 	ft_read(&st, &farm);
+	// ft_del_st(&st);
 	ft_print_farm(&farm);
+	ft_set_null(&st);
 	ft_algo(&farm);
 	return (0);
 }

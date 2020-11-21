@@ -6,7 +6,7 @@
 /*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:09 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/21 17:41:23 by asybil           ###   ########.fr       */
+/*   Updated: 2020/11/21 19:16:08 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  ** считывание муравьев и проверка что в первой строке число
 */
-void	ft_read_ants(char **buf, t_lem *st)
+void	ft_read_ants(char **buf, t_parse *st)
 {
 	int red;
 	char *tmp;
@@ -69,28 +69,28 @@ char **name_f, char **name_s)
 */
 int		ft_check_link(char *buf, t_node *hash_tab[HT_SIZE])
 {
-	char	*name_f;
-	char	*name_s;
+	char	*name_first;
+	char	*name_sec;
 
-	name_f = NULL;
-	name_s = NULL;
+	name_first = NULL;
+	name_sec = NULL;
 	if (!ft_work_links(buf, hash_tab, \
-	&name_f, &name_s))
+	&name_first, &name_sec))
 		return (0);
-	ft_strdel(&name_s);
-	ft_strdel(&name_f);
+	ft_strdel(&name_first);
+	ft_strdel(&name_first);
 	return (1);
 }
 
-t_link	*ft_new_link(int id_f, int id_s, int cap)
+t_link	*ft_new_link(int id_first, int id_sec, int cap)
 {
 	t_link	*new_link;
 
 	new_link = ft_memalloc(sizeof(t_link));
 	if (new_link == NULL)
 		return NULL;
-	new_link->parent = id_f;
-	new_link->curr = id_s;
+	new_link->parent = id_first;
+	new_link->curr = id_sec;
 	new_link->cap = cap;
 	return (new_link);
 }
@@ -98,40 +98,40 @@ t_link	*ft_new_link(int id_f, int id_s, int cap)
 /*
  ** добавляет линк в соседей
 */
-void	ft_add_link(farm *farm, int id_f, int id_s, \
+void	ft_add_link(farm *farm, int id_first, int id_sec, \
 int cap)
 {
 	t_link *tmp;
 
-	tmp = farm->rooms[id_f]->edges;
+	tmp = farm->rooms[id_first]->edges;
 	if (!tmp)
-		farm->rooms[id_f]->edges = ft_new_link(id_f, id_s, cap);
+		farm->rooms[id_first]->edges = ft_new_link(id_first, id_sec, cap);
 	else
 	{
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = ft_new_link(id_f, id_s, cap);
+		tmp->next = ft_new_link(id_first, id_sec, cap);
 	}
 }
 
 /*
  ** парсит линки и проверяет на наличие такого имени
 */
-void	ft_parse_link(char *buf, farm *farm, t_lem *st)
+void	ft_parse_link(char *buf, farm *farm, t_parse *st)
 {
-	char	*name_f;
-	char	*name_s;
-	int		id_f;
-	int		id_s;
+	char	*name_first;
+	char	*name_sec;
+	int		id_first;
+	int		id_sec;
 
-	name_f = NULL;
-	name_s = NULL;
-	id_f = 0;
-	id_s = 0;
-	if (!ft_work_links(buf, st->hash_tab, &name_f, &name_s)) // malloc * 2
+	name_first = NULL;
+	name_sec = NULL;
+	id_first = 0;
+	id_first = 0;
+	if (!ft_work_links(buf, st->hash_tab, &name_first, &name_sec)) // malloc * 2
 		error();
-	id_f = ft_get_elem(name_f, st->hash_tab)->id;
-	id_s = ft_get_elem(name_s, st->hash_tab)->id;
-	ft_add_link(farm, id_f, id_s, 1);
-	ft_add_link(farm, id_s, id_f, 1);
+	id_first = ft_get_elem(name_first, st->hash_tab)->id;
+	id_sec = ft_get_elem(name_sec, st->hash_tab)->id;
+	ft_add_link(farm, id_first, id_sec, 1);
+	ft_add_link(farm, id_sec, id_first, 1);
 }

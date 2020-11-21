@@ -6,7 +6,7 @@
 /*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:41 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/21 02:35:45 by asybil           ###   ########.fr       */
+/*   Updated: 2020/11/21 19:19:14 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ room	*ft_create_room(int id, char *name)
  ** заполняет новую структуру комнатами из хэш-таблицы
 */
 
-void	ft_farm_set_room(room **rooms, int count, t_lem *st)
+void	ft_farm_set_room(room **rooms, int count, t_parse *st)
 {
 	int	i;
 	int count_room;
@@ -77,7 +77,7 @@ t_node	*ft_get_elem(char *name, t_node *hash_tab[HT_SIZE])
  ** инициализация структуры 
 */
 
-int		ft_init_farm(farm *farm, t_lem *st)
+int		ft_init_farm(farm *farm, t_parse *st)
 {
 	if (!st->start || !st->end)
 		error();
@@ -97,7 +97,7 @@ int		ft_init_farm(farm *farm, t_lem *st)
  ** передает дальше для считывания комнат и связей
 */
 
-int		ft_read(t_lem *st, farm	*farm)
+int		ft_read(t_parse *st, farm	*farm)
 {
 	int		red;
 	char	*buf;

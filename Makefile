@@ -13,7 +13,6 @@ LIBFT_H = -I $(LIB_DIR)
 COMP = gcc -Wall -Werror -Wextra
 
 DIR = src/
-
 OBJ_DIR = obj/
 
 SRCS = ft_bfs.c ft_parse.c ft_parse_room.c ft_parse_link.c debug/ft_print_all.c main.c
