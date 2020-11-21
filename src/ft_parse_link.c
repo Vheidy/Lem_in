@@ -6,7 +6,7 @@
 /*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:09 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/21 01:56:53 by asybil           ###   ########.fr       */
+/*   Updated: 2020/11/21 17:41:23 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ void	ft_read_ants(char **buf, t_lem *st)
 				error();
 			tmp++;
 		}
-		
 		if (!(st->num_ant = ft_atoi(*buf)))
 			error();
-		free(*buf);
+		ft_strdel(buf);
 	}
 	else
 		error();
