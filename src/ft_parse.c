@@ -21,7 +21,6 @@ room	*ft_create_room(int id, char *name)
 	room	*new_room;
 
 	new_room = malloc(sizeof(room));
-	// new_room->neighbors = NULL;
 	new_room->edges= NULL;
 	new_room->id = id;
 	new_room->level = -1;
@@ -37,7 +36,7 @@ room	*ft_create_room(int id, char *name)
  ** заполняет новую структуру комнатами из хэш-таблицы
 */
 
-void	ft_farm_set_room(room **rooms, int count, t_lem *st)
+void	ft_farm_set_room(room **rooms, int count, t_parse *st)
 {
 	int	i;
 	int count_room;
@@ -46,7 +45,7 @@ void	ft_farm_set_room(room **rooms, int count, t_lem *st)
 	i = -1;
 	count_room = 0;
 	tmp = NULL;
-	while (count_room < count && ++i < 500)
+	while (count_room < count && ++i < HT_SIZE)
 		if (st->hash_tab[i])
 		{
 			tmp = st->hash_tab[i];
@@ -83,7 +82,7 @@ t_node	*ft_get_elem(char *name, t_node *hash_tab[HT_SIZE])
  ** инициализация структуры 
 */
 
-int		ft_init_farm(farm *farm, t_lem *st)
+int		ft_init_farm(farm *farm, t_parse *st)
 {
 	if (!st->start || !st->end)
 		error();
@@ -92,7 +91,7 @@ int		ft_init_farm(farm *farm, t_lem *st)
 	// printf("id_end: %d\n", farm->id_end);
 	farm->count_rooms = st->count_rooms;
 	farm->count_ants = st->num_ant;
-	if (!(farm->rooms = malloc(sizeof(room*) * st->count_rooms + 1)))
+	if (!(farm->rooms = malloc(sizeof(room*) * st->count_rooms + 1))) // malloc
 		error();
 	farm->rooms[st->count_rooms] = NULL;
 	ft_farm_set_room(farm->rooms, farm->count_rooms, st);
@@ -104,7 +103,7 @@ int		ft_init_farm(farm *farm, t_lem *st)
  ** передает дальше для считывания комнат и связей
 */
 
-int		ft_read(t_lem *st, farm	*farm)
+int		ft_read(t_parse *st, farm	*farm)
 {
 	int		red;
 	char	*buf;

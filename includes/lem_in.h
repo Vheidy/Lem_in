@@ -29,14 +29,14 @@ typedef struct			s_node
 	struct s_node		*next;
 }						t_node;
 
-typedef struct			s_lem
+typedef struct			s_parse
 {
 	int					count_rooms;
 	char				*start;
 	char				*end;
 	t_node				*hash_tab[HT_SIZE];
 	long long int		num_ant;
-}						t_lem;
+}						t_parse;
 
 typedef struct s_link
 {
@@ -63,6 +63,7 @@ typedef struct s_room
 
 typedef struct		s_route
 {
+	int				size;
 	int				*tops;
 	struct s_route	*next;
 }					t_route;
@@ -92,14 +93,14 @@ t_link	*ft_new_link(int id_f, int id_s, int cap);
 void	ft_print_tab(t_node *hash_tab[HT_SIZE]);
 void	ft_print_farm(farm *farm);
 void	ft_algo(farm *farm);
-void	ft_read_ants(char **buf, t_lem *st);
+void	ft_read_ants(char **buf, t_parse *st);
 int		ft_check_name(t_node *hash_tab[HT_SIZE], char *name);
-int		ft_init_farm(farm *farm, t_lem *st);
+int		ft_init_farm(farm *farm, t_parse *st);
 int		ft_check_link(char *buf, t_node *hash_tab[HT_SIZE]);
 t_node	*ft_get_elem(char *name, t_node *hash_tab[HT_SIZE]);
-int		ft_parse_room(t_lem *st, int fl, char **buf, farm *farm);
-void	ft_parse_link(char *buf, farm *farm, t_lem *st);
-int		ft_read(t_lem *st, farm	*farm);
+int		ft_parse_room(t_parse *st, int fl, char **buf, farm *farm);
+void	ft_parse_link(char *buf, farm *farm, t_parse *st);
+int		ft_read(t_parse *st, farm	*farm);
 void	error();
 int		ft_hasher(char *name);
 t_node	*ft_new_list(char *name, int id);

@@ -12,10 +12,6 @@
 
 #include "lem_in.h"
 
-/*
-Добавить посещаемые вершины
-*/
-
 void	error()
 {
 	write(1, "ERROR\n", 6);
@@ -58,26 +54,54 @@ t_node	*ft_new_list(char *name, int id)
 /*
  ** выставление на нул всех параметров в структуре
 */
-void	ft_set_null(t_lem *st)
+void	ft_set_null(t_parse *st)
 {
 	int	i;
 
 	i = -1;
+
 	st->start = NULL;
 	st->end = NULL;
 	st->num_ant = 0;
 	st->count_rooms = 0;
 	while (++i < HT_SIZE)
+	{
+		// ft_memdel((void **)&st->hash_tab[i]->name);
+		// ft_memdel((void **)&st->hash_tab[i]);
 		st->hash_tab[i] = NULL;
+	}
+}
+
+/*
+ ** удаление структуры для парсинга
+*/
+void	ft_del_st(t_parse *st)
+{
+	int	i;
+
+	i = -1;
+	st->count_rooms = 0;
+	st->num_ant = 0;
+	ft_memdel((void **)&st->start);
+	ft_memdel((void **)&st->end);
+	while (++i < HT_SIZE)
+	{
+		ft_memdel((void **)&st->hash_tab[i]->name);
+		ft_memdel((void **)&st->hash_tab[i]);
+		st->hash_tab[i] = NULL;
+	}
+	free(st->hash_tab);
 }
 
 int		main() {
-	t_lem	st;
+	t_parse	st;
 	farm	farm;
 
 	ft_set_null(&st);
 	ft_read(&st, &farm);
+	// ft_del_st(&st);
 	ft_print_farm(&farm);
+	ft_set_null(&st);
 	ft_algo(&farm);
 	return (0);
 }

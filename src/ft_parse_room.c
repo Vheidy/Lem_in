@@ -93,7 +93,7 @@ char	*ft_check_next_room(char **buf, t_node *hash_tab[HT_SIZE])
  ** добавление комнаты в хэш-таблицу  
  ** - если по этому индексу уже есть имя, то в след лист
 */
-void	ft_add_in_hash_tab(char *name, t_lem *st, int id)
+void	ft_add_in_hash_tab(char *name, t_parse *st, int id)
 {
 	int		index;
 	t_node	*tmp;
@@ -114,7 +114,7 @@ void	ft_add_in_hash_tab(char *name, t_lem *st, int id)
 /*
  ** считывает комнаты и если видит связь ставит флаг
 */
-int		ft_parse_room(t_lem *st, int fl, char **buf, farm *farm)
+int		ft_parse_room(t_parse *st, int fl, char **buf, farm *farm)
 {
 	int		id;
 	char	*name;

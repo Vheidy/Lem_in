@@ -3,7 +3,6 @@
 /*
  ** выводит хэш-таблицу, временная функция
 */
-
 void	ft_print_tab(t_node *hash_tab[HT_SIZE])
 {
 	int	i;
@@ -28,6 +27,9 @@ void	ft_print_tab(t_node *hash_tab[HT_SIZE])
 	}
 }
 
+/*
+ ** Выводит ферму и линки
+*/
 void	ft_print_farm(farm *farm)
 {
 	int i = 0;
