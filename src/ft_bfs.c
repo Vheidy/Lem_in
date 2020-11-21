@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bfs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 16:08:57 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/19 17:14:18 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/21 19:18:23 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "../includes/lem_in.h"
 
 /*
  ** написать функцию блокирующих потоков
@@ -26,11 +26,12 @@ int		ft_get_first(t_node **deque)
 	t_node	*tmp;
 	int		id;
 
+	id = 0;
+	tmp = 0;
 	tmp = *deque;
 	id = (*deque)->id;
 	*deque = (*deque)->next;
-	// ft_del_list(tmp);
-	free(tmp);
+	ft_memdel((void**)&tmp);
 	return (id);
 }
 
@@ -41,6 +42,7 @@ void	ft_add_deque(t_node **deque, int id)
 {
 	t_node	*tmp;
 
+	tmp = 0;
 	if (!*deque)
 	{
 		*deque = ft_new_list(NULL, id);
@@ -64,6 +66,8 @@ int		ft_bfs(room **rooms, t_node **deque, int id_end)
 	t_link	*tmp;
 	int		curr_id;
 
+	tmp = 0;
+	curr_id = 0;
 	while (*deque)
 	{
 		curr_id = ft_get_first(deque);

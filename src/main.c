@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:55:25 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/19 16:18:26 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/21 19:20:10 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "../includes/lem_in.h"
 
 void	error()
 {
@@ -34,7 +34,7 @@ int		ft_hasher(char *name)
 		name++;
 		c = *name;
 	}
-	return (hash % 500);
+	return (hash % HT_SIZE);
 }
 
 /*
@@ -44,8 +44,7 @@ t_node	*ft_new_list(char *name, int id)
 {
 	t_node	*new_list;
 
-	new_list = malloc(sizeof(t_node));
-	new_list->next = NULL;
+	new_list = ft_memalloc(sizeof(t_node));
 	new_list->id = id;
 	new_list->name = name;
 	return (new_list);
@@ -56,41 +55,7 @@ t_node	*ft_new_list(char *name, int id)
 */
 void	ft_set_null(t_parse *st)
 {
-	int	i;
-
-	i = -1;
-
-	st->start = NULL;
-	st->end = NULL;
-	st->num_ant = 0;
-	st->count_rooms = 0;
-	while (++i < HT_SIZE)
-	{
-		// ft_memdel((void **)&st->hash_tab[i]->name);
-		// ft_memdel((void **)&st->hash_tab[i]);
-		st->hash_tab[i] = NULL;
-	}
-}
-
-/*
- ** удаление структуры для парсинга
-*/
-void	ft_del_st(t_parse *st)
-{
-	int	i;
-
-	i = -1;
-	st->count_rooms = 0;
-	st->num_ant = 0;
-	ft_memdel((void **)&st->start);
-	ft_memdel((void **)&st->end);
-	while (++i < HT_SIZE)
-	{
-		ft_memdel((void **)&st->hash_tab[i]->name);
-		ft_memdel((void **)&st->hash_tab[i]);
-		st->hash_tab[i] = NULL;
-	}
-	free(st->hash_tab);
+	ft_bzero(st, sizeof(st));
 }
 
 int		main() {

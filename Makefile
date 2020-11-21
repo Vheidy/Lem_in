@@ -15,7 +15,7 @@ COMP = gcc -Wall -Werror -Wextra
 DIR = src/
 OBJ_DIR = obj/
 
-SRCS = main.c ft_parse.c ft_parse_room.c ft_parse_link.c ft_print_all.c
+SRCS = ft_bfs.c ft_parse.c ft_parse_room.c ft_parse_link.c debug/ft_print_all.c main.c
 
 C_FILE = $(SRCS)
 
