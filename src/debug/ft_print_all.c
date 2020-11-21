@@ -1,4 +1,4 @@
-#include "lem_in.h"
+#include "../../includes/lem_in.h"
 
 /*
  ** выводит хэш-таблицу, временная функция
@@ -10,7 +10,8 @@ void	ft_print_tab(t_node *hash_tab[HT_SIZE])
 	t_node *tmp;
 
 	i = 0;
-	while (i < 500)
+	tmp = 0;
+	while (i < HT_SIZE)
 	{
 		if (hash_tab[i])
 		{

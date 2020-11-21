@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:55:25 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/19 16:18:26 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/21 02:13:06 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "../includes/lem_in.h"
 
 /*
 Добавить посещаемые вершины
@@ -38,7 +38,7 @@ int		ft_hasher(char *name)
 		name++;
 		c = *name;
 	}
-	return (hash % 500);
+	return (hash % HT_SIZE);
 }
 
 /*
@@ -48,8 +48,7 @@ t_node	*ft_new_list(char *name, int id)
 {
 	t_node	*new_list;
 
-	new_list = malloc(sizeof(t_node));
-	new_list->next = NULL;
+	new_list = ft_memalloc(sizeof(t_node));
 	new_list->id = id;
 	new_list->name = name;
 	return (new_list);
@@ -60,15 +59,7 @@ t_node	*ft_new_list(char *name, int id)
 */
 void	ft_set_null(t_lem *st)
 {
-	int	i;
-
-	i = -1;
-	st->start = NULL;
-	st->end = NULL;
-	st->num_ant = 0;
-	st->count_rooms = 0;
-	while (++i < HT_SIZE)
-		st->hash_tab[i] = NULL;
+	ft_bzero(st, sizeof(t_lem));
 }
 
 int		main() {
