@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/21 02:07:41 by asybil           ###   ########.fr       */
+/*   Updated: 2020/11/23 15:59:10 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_room
 	int			id;
 	char		*name;
 	int			level;
+	int			visited;
 	int			count_link;
 }				room;
 
@@ -89,6 +90,7 @@ typedef struct s_farm
 	int		count_ants;
 }				farm;
 
+void	ft_form_route(t_route **route, int id, farm *farm, int fl);
 t_link	*ft_new_link(int id_f, int id_s, int cap);
 void	ft_algo(farm *farm);
 void	ft_read_ants(char **buf, t_parse *st);

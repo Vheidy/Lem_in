@@ -42,12 +42,13 @@ void	ft_print_farm(farm *farm)
 	{
 		t_link *tmp;
 		printf("Name room: %s\n", farm->rooms[i]->name);
+		printf("Level room: %d\n", farm->rooms[i]->level);
 		printf("ID room: %d\n", farm->rooms[i]->id);
 		tmp = farm->rooms[i]->edges;
 		if (tmp)
 		{
 			printf("Name neib: %s\n", farm->rooms[tmp->curr]->name);
-			// printf("Cap neib: %d\n", tmp->cap);
+			printf("Flow neib: %d\n", tmp->flow);
 			// if (!ft_strcmp(tmp->name, "3"))
 			// 	printf("Name neib: %s\n", tmp->next->name);
 			while (tmp->next)
@@ -55,7 +56,7 @@ void	ft_print_farm(farm *farm)
 				// printf("ok\n");
 				tmp = tmp->next;
 				printf("Name neib: %s\n", farm->rooms[tmp->curr]->name);
-				// printf("Cap neib: %d\n", tmp->cap);
+				printf("Flow neib: %d\n", tmp->flow);
 			}
 		}
 		printf("----\n");
