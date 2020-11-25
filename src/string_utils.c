@@ -6,7 +6,7 @@
 /*   By: asybil <asybil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 22:54:53 by asybil            #+#    #+#             */
-/*   Updated: 2020/11/25 23:50:00 by asybil           ###   ########.fr       */
+/*   Updated: 2020/11/26 00:07:29 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@ void			string_append_line(char *str)
 void			print_string(void)
 {
 	write(1, g_input.str, g_input.len);
+	ft_strdel(&g_input.str);
 }
