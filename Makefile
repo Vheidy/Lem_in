@@ -10,7 +10,7 @@ HEAD_DIR = includes/
 HEAD = -I $(HEAD_DIR)
 LIBFT_H = -I $(LIB_DIR)
 
-COMP = gcc -Wall -Werror -Wextra
+COMP = gcc 
 
 DIR = src/
 OBJ_DIR = obj/
