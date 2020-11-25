@@ -6,37 +6,40 @@
 /*   By: asybil <asybil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 22:54:53 by asybil            #+#    #+#             */
-/*   Updated: 2020/11/25 23:20:07 by asybil           ###   ########.fr       */
+/*   Updated: 2020/11/25 23:50:00 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/string_utils.h"
 
-void	init_string(void)
+static	char	*join(char const *s1, char const *s2)
+{
+	int	len;
+
+	len = ft_strlen(s1) + ft_strlen(s2);
+	return (ft_strcat(ft_strcpy(ft_strnew(len), s1), s2));
+}
+
+void			init_string(void)
 {
 	ft_bzero(&g_input, sizeof(t_string));
 }
 
-void	string_append_line(char *str)
+void			string_append_line(char *str)
 {
-	char	*tmp;
+	char	*line;
+	char	*old_input;
 	int		len;
 
-	tmp = NULL;
-	tmp = g_input.str;
-	len = ft_strlen(str);
-	g_input.len += len;
-	g_input.str = ft_strcat(ft_strcpy(ft_strnew(g_input.len + 1), g_input.str)\
-																		, str);
-	if (g_input.str == NULL)
-	{
-		g_input.len = 0;
-		return ;
-	}
-	g_input.str[g_input.len - 1] = '\n';
+	line = join(str, "\n");
+	old_input = g_input.str;
+	g_input.str = join(g_input.str, line);
+	ft_strdel(&line);
+	ft_strdel(&old_input);
+	g_input.len = ft_strlen(g_input.str);
 }
 
-void	print_string(void)
+void			print_string(void)
 {
 	write(1, g_input.str, g_input.len);
 }
