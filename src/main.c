@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:55:25 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/25 13:39:16 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/25 17:46:21 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,25 +77,44 @@ void	ft_set_null(t_parse *st)
 void	ft_del_st(t_parse *st)
 {
 	int	i;
+	t_node	*tmp;
+	t_node	*tmp_s;
 
 	i = -1;
+	tmp = NULL;
+	tmp_s = NULL;
+	printf("--- %s\n", st->hash_tab[347]->name);
 	st->count_rooms = 0;
 	st->num_ant = 0;
 	ft_memdel((void **)&st->start);
 	ft_memdel((void **)&st->end);
 	while (++i < HT_SIZE)
 	{
-		ft_memdel((void **)&st->hash_tab[i]->name);
-		ft_memdel((void **)&st->hash_tab[i]);
-		st->hash_tab[i] = NULL;
+		if (st->hash_tab[i])
+		{
+			printf("%d\n", i);
+			tmp = st->hash_tab[i];
+			while (tmp)
+			{
+				tmp_s = tmp->next;
+				ft_memdel((void **)&tmp->name);
+				ft_memdel((void **)&tmp);
+				tmp = tmp_s;
+			}
+			tmp = NULL;
+		}
 	}
-	free(st->hash_tab);
+	// free(st->hash_tab);
 }
 
 void	ft_init_in_out(farm *farm)
 {
 	farm->rooms[farm->id_start]->out = 1;
+	farm->rooms[farm->id_start]->in = 0;
+	farm->rooms[farm->id_start]->in_out = 1;
 	farm->rooms[farm->id_end]->in = 1;
+	farm->rooms[farm->id_end]->out = 0;
+	farm->rooms[farm->id_end]->in_out = 1;
 }
 
 int		main() {
@@ -104,14 +123,16 @@ int		main() {
 
 	// ft_set_null(&st);
 	ft_bzero(&st, sizeof(t_parse));
-	ft_print_tab(st.hash_tab);
 	ft_read(&st, &farm);
-	ft_print_farm(&farm);
-	// ft_init_in_out(&farm);
+	// ft_print_tab(st.hash_tab);
+	ft_init_in_out(&farm);
+	// ft_print_farm(&farm);
 	// printf("ok\n");
-	// ft_del_st(&st);
+	// ft_del_st(&st); ??!!
+	// printf("ok\n");
+	// ft_memdel(&(&st));
 	// ft_print_farm(&farm);
 	// ft_set_null(&st);
-	// ft_algo(&farm);
+	ft_algo(&farm);
 	return (0);
 }

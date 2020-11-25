@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_link.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:09 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/21 19:16:08 by asybil           ###   ########.fr       */
+/*   Updated: 2020/11/25 16:18:24 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_link	*ft_new_link(int id_first, int id_sec, int cap)
 	new_link = ft_memalloc(sizeof(t_link));
 	if (new_link == NULL)
 		return NULL;
+	new_link->flow = 0;
 	new_link->parent = id_first;
 	new_link->curr = id_sec;
 	new_link->cap = cap;

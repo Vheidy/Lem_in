@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_form_route.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:08:41 by polina            #+#    #+#             */
-/*   Updated: 2020/11/23 16:04:01 by polina           ###   ########.fr       */
+/*   Updated: 2020/11/25 17:43:40 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,21 @@ void	ft_find_next(int id_first, int id_sec, farm *farm, int filler)
 /*
  ** заполнение пути 1 и -1
 */
-void	ft_full_for_route(t_route *route, farm *farm)
+void	ft_full_for_route(t_route **route, farm *farm)
 {
 	int		i;
 
 	i = -1;
 	// printf("ok\n");
 	// printf("%d\n", route->size);
-	while (++i + 1 < route->size)
+	while (++i + 1 < (*route)->size)
 	{
-		if (route->tops[i] != farm->id_start)
+		if ((*route)->tops[i] != farm->id_start)
 		{
-			farm->rooms[route->tops[i]]->in_out = 1;
+			farm->rooms[(*route)->tops[i]]->in_out = 1;
 		}
-		ft_find_next(route->tops[i], route->tops[i + 1], farm, 1);
-		ft_find_next(route->tops[i + 1], route->tops[i], farm, -1);
+		ft_find_next((*route)->tops[i], (*route)->tops[i + 1], farm, 1);
+		ft_find_next((*route)->tops[i + 1], (*route)->tops[i], farm, -1);
 	}
 }
 
@@ -76,7 +76,7 @@ t_route	**ft_init_route(t_route **route, room *tmp_room, farm *farm)
 /*
  ** создание пути и проставление потоков (flow)
 */
-void	ft_form_route(t_route **route, int id, farm *farm, int fl)
+void	ft_form_route(t_route **route, int id, farm *farm)
 {
 	int		i;
 	room	*tmp_room;
@@ -84,22 +84,23 @@ void	ft_form_route(t_route **route, int id, farm *farm, int fl)
 	t_route	**tmp;
 
 	i = farm->rooms[id]->level + 1;
-	printf("ID: %d\n", id);
+	// printf("ID: %d\n", id);
 	tmp_room = farm->rooms[id];
 	tmp = ft_init_route(route, tmp_room, farm);
-	printf("Size: %d\n",( *tmp)->size);
+	// printf("Size: %d\n",( *tmp)->size);
 	while (--i > 0)
 	{
 		(*tmp)->tops[i] = id;
+		// printf("%d\n", id); 
 		tmp_link = tmp_room->edges;
-		// printf("ok\n");
-		while (fl && (farm->rooms[tmp_link->curr]->level != tmp_room->level - 1))
+		// printf("Level: %d\n", farm->rooms[id]->level);
+		while (farm->rooms[tmp_link->curr]->level != tmp_room->level - 1)
 			tmp_link = tmp_link->next;
-		while (!fl && (farm->rooms[tmp_link->curr]->visited != tmp_room->visited - 1))
-			tmp_link = tmp_link->next;
-		printf("ok\n");
+		// farm->rooms[id]->level = 0;
+		// while (!fl && (farm->rooms[tmp_link->curr]->visited != tmp_room->visited - 1))
+		// 	tmp_link = tmp_link->next;
 		id = farm->rooms[tmp_link->curr]->id;
 		tmp_room = farm->rooms[id];
 	}
-	ft_full_for_route(*route, farm);
+	ft_full_for_route(route, farm);
 }
