@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_form_route.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:08:41 by polina            #+#    #+#             */
-/*   Updated: 2020/11/25 17:43:40 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/26 12:31:59 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,10 @@ t_route	**ft_init_route(t_route **route, room *tmp_room, farm *farm)
 	return (tmp);
 }
 
-
 /*
  ** создание пути и проставление потоков (flow)
 */
-void	ft_form_route(t_route **route, int id, farm *farm)
+void	ft_form_route(t_route **route, int id, farm *farm, int fl)
 {
 	int		i;
 	room	*tmp_room;
@@ -102,5 +101,6 @@ void	ft_form_route(t_route **route, int id, farm *farm)
 		id = farm->rooms[tmp_link->curr]->id;
 		tmp_room = farm->rooms[id];
 	}
-	ft_full_for_route(route, farm);
+	if (fl)
+		ft_full_for_route(route, farm);
 }

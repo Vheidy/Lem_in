@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bfs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 16:08:57 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/25 17:50:12 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/26 14:01:48 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int		ft_bfs(room **rooms, int id_start, int id_end)
 	while (deque)
 	{
 		curr_id = ft_get_first(&deque);
+		// printf("%d\n", curr_id);
 		tmp = rooms[curr_id]->edges;
 		while (tmp)
 		{
@@ -94,21 +95,35 @@ void	ft_del_waste_route(farm *farm, int id)
 {
 	t_link	*tmp;
 	t_link	*tmp_s;
+	int		fl;
 	int		i;
 
 	tmp = farm->rooms[id]->edges;
 	tmp_s = NULL;
+	// fl = 0;
 	i = farm->rooms[id]->level + 1;
+	// farm->rooms[id]->level = -1;
+	// printf("Must del: %d\n", id);
 	while (--i > 0)
 	{
+		fl = 0;
 		while (tmp)
 		{
 			tmp_s = farm->rooms[tmp->curr]->edges;
-			if (tmp_s->curr != id && farm->rooms[tmp_s->curr]->level == farm->rooms[id]->level)
-				break ;
-			if (farm->rooms[tmp->curr]->level != -1 && \
+			while (tmp_s)
+			{
+				if (tmp_s->curr != id && farm->rooms[tmp_s->curr]->level == farm->rooms[id]->level)
+				{
+					fl = 1;
+					// printf("Del id: %d\n", id);
+					farm->rooms[id]->level = -1;
+				}
+				tmp_s = tmp_s->next;
+			}
+			if (!fl && farm->rooms[tmp->curr]->level != -1 && \
 			farm->rooms[tmp->curr]->level == farm->rooms[id]->level - 1)
 			{
+				// printf("Del id: %d\n", id);
 				farm->rooms[id]->level = -1;
 				id = tmp->curr;
 				tmp = farm->rooms[id]->edges;
@@ -119,60 +134,121 @@ void	ft_del_waste_route(farm *farm, int id)
 	}
 }
 
-t_route	*ft_form_block_flow(farm *farm)
+int		ft_form_block_flow(farm *farm, int id, t_node **route)
 {
-	t_node	*deque;
-	int		id;
+	int		tmp_id;
 	t_link	*edges;
-	int		fl;
-	t_route	*res;
+	t_node	*tmp;
 
-	edges = NULL;
-	res = NULL;
-	deque = ft_new_list(NULL, farm->id_start);
-	farm->rooms[farm->id_start]->level = 0;
-	while (deque)
+	// printf("%d\n", id);
+	farm->rooms[id]->visited = 1;
+	edges = farm->rooms[id]->edges;
+	tmp = NULL;
+	if (!(*route))
 	{
-		// printf("ok\n");
-		id = ft_get_first(&deque);
-		edges = farm->rooms[id]->edges;
-		printf("%d\n", id);
-		fl = 0;
 		if (farm->rooms[id]->in == 1 && farm->rooms[id]->in_out == 0)
 		{
-			// printf("ok\n");
 			farm->rooms[id]->in = 0;
-			farm->rooms[id]->in_out = 1;
 			farm->rooms[id]->out = 1;
 		}
 		while (edges)
 		{
 			if (((farm->rooms[id]->out == 1 && edges->flow == 0) \
 			|| (farm->rooms[id]->in == 1 && edges->flow == -1)) && \
-			farm->rooms[edges->curr]->level == -1)
+			farm->rooms[edges->curr]->visited == 0)
 			{
-				// printf("ok\n");
 				if (edges->curr == farm->id_end)
-				{
-					ft_form_route(&res, id, farm);
-					// printf("RES: %d\n", id);
-					return (res);
-				}
-				farm->rooms[edges->curr]->level = farm->rooms[id]->level + 1;
+					return (id);
 				if (farm->rooms[id]->out == 1)
+				{
 					farm->rooms[edges->curr]->in = 1;
+					farm->rooms[edges->curr]->out = 0;
+				}
 				else
+				{
+					farm->rooms[edges->curr]->in = 0;
 					farm->rooms[edges->curr]->out = 1;
-				ft_add_deque(&deque, edges->curr);
-				fl = 1;
+				}
+				if ((tmp_id = ft_form_block_flow(farm, edges->curr, route)))
+				{
+					if (!(*route))
+						(*route) = ft_new_list(NULL, tmp_id);
+					else
+					{
+						tmp = (*route);
+						while (tmp->next)
+							tmp = tmp->next;
+						tmp->next = ft_new_list(NULL, tmp_id);
+					}
+				}
 			}
 			edges = edges->next;
 		}
-		if (!fl)
-			ft_del_waste_route(farm, id);
 	}
-	return (NULL);
+	return (0);
 }
+// t_route	*ft_form_block_flow(farm *farm)
+// {
+// 	t_node	*deque;
+// 	int		id;
+// 	t_link	*edges;
+// 	int		fl;
+// 	t_route	*res;
+
+// 	edges = NULL;
+// 	res = NULL;
+// 	deque = ft_new_list(NULL, farm->id_start);
+// 	farm->rooms[farm->id_start]->level = 0;
+// 	while (deque)
+// 	{
+// 		// printf("ok\n");
+// 		id = ft_get_first(&deque);
+// 		edges = farm->rooms[id]->edges;
+// 		printf("Curr id: %d\n", id);
+// 		fl = 0;
+// 		if (farm->rooms[id]->in == 1 && farm->rooms[id]->in_out == 0)
+// 		{
+// 			farm->rooms[id]->in = 0;
+// 			// farm->rooms[id]->in_out = 1;
+// 			farm->rooms[id]->out = 1;
+// 		}
+// 		// printf("In: %d\n", farm->rooms[id]->in);
+// 		// printf("Out: %d\n", farm->rooms[id]->out);
+// 		while (edges)
+// 		{
+// 			if (((farm->rooms[id]->out == 1 && edges->flow == 0) \
+// 			|| (farm->rooms[id]->in == 1 && edges->flow == -1)) && \
+// 			farm->rooms[edges->curr]->level == -1)
+// 			{
+// 				printf("Neib %d\n", edges->curr);
+// 				if (edges->curr == farm->id_end)
+// 				{
+// 					ft_form_route(&res, id, farm, 0);
+// 					// printf("RES: %d\n", id);
+// 					return (res);
+// 				}
+// 				farm->rooms[edges->curr]->level = farm->rooms[id]->level + 1;
+// 				if (farm->rooms[id]->out == 1)
+// 				{
+// 					farm->rooms[edges->curr]->in = 1;
+// 					farm->rooms[edges->curr]->out = 0;
+// 				}
+// 				else
+// 				{
+// 					farm->rooms[edges->curr]->in = 0;
+// 					farm->rooms[edges->curr]->out = 1;
+// 				}
+// 				ft_add_deque(&deque, edges->curr);
+// 				fl = 1;
+// 			}
+// 			edges = edges->next;
+// 		}
+// 		if (!fl)
+// 			ft_del_waste_route(farm, id);
+// 		// printf("Level: %d\n", farm->rooms[id]->level);
+// 	}
+// 	return (NULL);
+// }
 
 void	ft_set_null_level(farm *farm)
 {
@@ -205,26 +281,30 @@ void	ft_algo(farm *farm)
 {
 	int		id;
 	t_route	*best;
-	t_route	*tmp_block_flow;
+	t_node	*tmp;
+	// t_route	*tmp_block_flow;
 	// t_route	*add;
 
 	best = NULL;
-	// tmp_block_flow = NULL;
+	tmp = NULL;
 	while ((id = ft_bfs(farm->rooms, farm->id_start, farm->id_end)) != -1)
 	{
-		ft_form_route(&best, id, farm);
+		ft_form_route(&best, id, farm, 1);
 		ft_set_null_level(farm);
 		// ft_print_farm(farm);
 		// printf("%d\n", id);
 		int i = -1;
 		while (++i < best->size)
 			printf("First Top: %d\n", best->tops[i]);
-		if ((tmp_block_flow = ft_form_block_flow(farm))) // defence
-		{
-			i = -1;
-		while (++i < tmp_block_flow->size)
-			printf("Top: %d\n", tmp_block_flow->tops[i]);
+		ft_form_block_flow(farm, farm->id_start, &tmp); // defence
+		// ft_print_farm(farm);
+		// {
+		// 	i = -1;
+		while (tmp){
+			printf("Top: %d\n", tmp->id);
+			tmp = tmp->next;
 		}
+		// ft_set_null_level(farm);
 		// printf("ok\n");
 		// i = -1;
 		// while (++i < tmp_block_flow->size)

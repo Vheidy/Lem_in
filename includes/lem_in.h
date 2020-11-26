@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/25 16:58:49 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/26 13:20:06 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef struct s_farm
 	int		count_ants;
 }				farm;
 
-void	ft_form_route(t_route **route, int id, farm *farm);
+void	ft_form_route(t_route **route, int id, farm *farm, int fl);
 t_link	*ft_new_link(int id_f, int id_s, int cap);
 void	ft_algo(farm *farm);
 void	ft_read_ants(char **buf, t_parse *st);
