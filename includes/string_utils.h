@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memccpy.c                                       :+:      :+:    :+:   */
+/*   string_utils.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asybil <asybil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/05 14:10:52 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/25 23:29:59 by asybil           ###   ########.fr       */
+/*   Created: 2020/11/25 22:55:23 by asybil            #+#    #+#             */
+/*   Updated: 2020/11/25 23:23:21 by asybil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef STRING_UTILS_H
+# define STRING_UTILS_H
 
-void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
+# include "lem_in.h"
+
+/*
+**		String Structure
+*/
+typedef struct	s_string
 {
-	size_t			i;
-	unsigned char	*d;
-	unsigned char	*s;
+	size_t		len;
+	char		*str;
+}				t_string;
 
-	i = 0;
-	s = (unsigned char*)src;
-	d = (unsigned char*)dst;
-	while (i < n)
-	{
-		d[i] = s[i];
-		if (s[i] == (unsigned char)c)
-			return (dst + i + 1);
-		i++;
-	}
-	return (NULL);
-}
+t_string		g_input;
+
+void			init_string(void);
+void			string_append_line(char *str);
+void			print_string(void);
+
+#endif
