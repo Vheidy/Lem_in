@@ -47,7 +47,7 @@ void	ft_print_farm(farm *farm)
 		printf("Level room: %d\n", farm->rooms[i]->level);
 		// printf("In room: %d\n", farm->rooms[i]->in);
 		// printf("Out room: %d\n", farm->rooms[i]->out);
-		printf("In_out room: %d\n", farm->rooms[i]->in_out);
+		// printf("In_out room: %d\n", farm->rooms[i]->in_out);
 		tmp = farm->rooms[i]->edges;
 		if (tmp)
 		{
@@ -55,6 +55,7 @@ void	ft_print_farm(farm *farm)
 			
 			// if (!ft_strcmp(tmp->name, "3"))
 			printf("Flow neib: %d\n", tmp->flow);
+			// printf("Cap neib: %d\n", tmp->cap);
 			while (tmp->next)
 			{
 				// printf("ok\n");

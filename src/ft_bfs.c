@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bfs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 16:08:57 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/26 14:01:48 by polina           ###   ########.fr       */
+/*   Updated: 2020/11/26 19:22:19 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,14 @@ int		ft_bfs(room **rooms, int id_start, int id_end)
 	while (deque)
 	{
 		curr_id = ft_get_first(&deque);
-		// printf("%d\n", curr_id);
 		tmp = rooms[curr_id]->edges;
 		while (tmp)
 		{
 			if (tmp->curr == id_end)
+			{
+				rooms[tmp->curr]->level = rooms[curr_id]->level + 1;
 				return (curr_id);
+			}
 			if (rooms[tmp->curr]->in_out == 0 && rooms[tmp->curr]->level == -1)
 			{
 				rooms[tmp->curr]->level = rooms[curr_id]->level + 1;
@@ -134,56 +136,49 @@ void	ft_del_waste_route(farm *farm, int id)
 	}
 }
 
-int		ft_form_block_flow(farm *farm, int id, t_node **route)
+int	ft_form_block_flow(farm *farm, int id)
 {
-	int		tmp_id;
+	int		tmp;
 	t_link	*edges;
-	t_node	*tmp;
 
-	// printf("%d\n", id);
-	farm->rooms[id]->visited = 1;
+	printf("Curr id: %d\n", id);
+	// printf("In: %d\n", farm->rooms[id]->in);
+	// printf("Out: %d\n", farm->rooms[id]->out);
 	edges = farm->rooms[id]->edges;
-	tmp = NULL;
-	if (!(*route))
+	tmp = 0;
+	if (id == farm->id_end)
+		return (1);
+	if (farm->rooms[id]->visited == 1)
+		return (0);
+	farm->rooms[id]->visited = 1;
+	if (farm->rooms[id]->in == 1 && farm->rooms[id]->in_out == 0)
 	{
-		if (farm->rooms[id]->in == 1 && farm->rooms[id]->in_out == 0)
+		printf("ok\n");
+		farm->rooms[id]->in = 0;
+		farm->rooms[id]->out = 1;
+	}
+	while (edges)
+	{
+		if (farm->rooms[edges->curr]->visited == 0 && \
+		((farm->rooms[id]->out == 1 && edges->flow == 0) \
+		|| (farm->rooms[id]->in == 1 && edges->flow == -1)))
 		{
-			farm->rooms[id]->in = 0;
-			farm->rooms[id]->out = 1;
-		}
-		while (edges)
-		{
-			if (((farm->rooms[id]->out == 1 && edges->flow == 0) \
-			|| (farm->rooms[id]->in == 1 && edges->flow == -1)) && \
-			farm->rooms[edges->curr]->visited == 0)
+			if (id != farm->id_end && farm->rooms[id]->out == 1)
 			{
-				if (edges->curr == farm->id_end)
-					return (id);
-				if (farm->rooms[id]->out == 1)
-				{
-					farm->rooms[edges->curr]->in = 1;
-					farm->rooms[edges->curr]->out = 0;
-				}
-				else
-				{
-					farm->rooms[edges->curr]->in = 0;
-					farm->rooms[edges->curr]->out = 1;
-				}
-				if ((tmp_id = ft_form_block_flow(farm, edges->curr, route)))
-				{
-					if (!(*route))
-						(*route) = ft_new_list(NULL, tmp_id);
-					else
-					{
-						tmp = (*route);
-						while (tmp->next)
-							tmp = tmp->next;
-						tmp->next = ft_new_list(NULL, tmp_id);
-					}
-				}
+				farm->rooms[edges->curr]->in = 1;
+				farm->rooms[edges->curr]->out = 0;
 			}
-			edges = edges->next;
+			else if (id != farm->id_end)
+			{
+				farm->rooms[edges->curr]->in = 0;
+				farm->rooms[edges->curr]->out = 1;
+			}
+			farm->rooms[edges->curr]->level = farm->rooms[id]->level + 1;
+			tmp = ft_form_block_flow(farm, edges->curr);
+			if (tmp)
+				return (1);
 		}
+		edges = edges->next;
 	}
 	return (0);
 }
@@ -274,6 +269,57 @@ void	ft_set_null_level(farm *farm)
 	}
 }
 
+int		ft_min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
+
+int		ft_dfs(farm *farm, int id, int flow)
+{
+	t_link	*edges;
+	t_link	*tmp;
+	int		pushed;
+
+	edges = farm->rooms[id]->edges;
+	tmp = NULL;
+	if (id == farm->id_end)
+	{
+		// printf("end\n");
+		return (1);
+	}
+	if (!flow)
+		return (0);
+	if (farm->rooms[id]->level == -1)
+		return (0);
+	while (edges)
+	{
+		// // printf("Id: %d, neib: %d\n", id, edges->curr);
+		// if (farm->rooms[edges->curr]->level == farm->rooms[id]->level + 1 && id == 10 && edges->curr == 13)
+		// 	// printf("aga, cap: %d, flow :%d\n", edges->cap, edges->flow);
+		// if ((edges->cap - edges->flow > 0) && id == 10)
+		// 	// printf("ugu\n");
+		if (farm->rooms[edges->curr]->level == farm->rooms[id]->level + 1 \
+		&& (edges->cap - edges->flow > 0))
+		{
+			pushed = ft_dfs(farm, edges->curr);
+			if (pushed)
+			{
+				// printf("ok\n");
+				edges->flow += 1;
+				tmp = farm->rooms[edges->curr]->edges;
+				while (tmp->curr != id)
+					tmp = tmp->next;
+				tmp->flow -= 1;
+				return (pushed);
+			}
+		}
+		edges = edges->next;
+	}
+	return (0);
+}
+
 /*
  ** проверка на наличие пути от старта к финишу
 */
@@ -281,34 +327,43 @@ void	ft_algo(farm *farm)
 {
 	int		id;
 	t_route	*best;
-	t_node	*tmp;
-	// t_route	*tmp_block_flow;
+	// t_node	*tmp;
+	// t_node	*head;
+	t_route	*tmp_block_flow;
 	// t_route	*add;
 
 	best = NULL;
-	tmp = NULL;
+	tmp_block_flow = NULL;
+	// tmp = ft_new_list(NULL, farm->id_end);
 	while ((id = ft_bfs(farm->rooms, farm->id_start, farm->id_end)) != -1)
 	{
-		ft_form_route(&best, id, farm, 1);
+		ft_form_route(&best, farm->id_end, farm, 1);
 		ft_set_null_level(farm);
 		// ft_print_farm(farm);
-		// printf("%d\n", id);
+		
 		int i = -1;
 		while (++i < best->size)
 			printf("First Top: %d\n", best->tops[i]);
-		ft_form_block_flow(farm, farm->id_start, &tmp); // defence
+		farm->rooms[farm->id_start]->level = 0;
+		if (ft_form_block_flow(farm, farm->id_start) == 1) // defence
+		{
+			ft_form_route(&tmp_block_flow, farm->id_end, farm, 0);
+				i = -1;
+			printf("Level end: %d\n", farm->rooms[farm->id_end]->level);
+			while (++i < tmp_block_flow->size)
+				printf("Top: %d\n", tmp_block_flow->tops[i]);
+		}
 		// ft_print_farm(farm);
 		// {
 		// 	i = -1;
-		while (tmp){
-			printf("Top: %d\n", tmp->id);
-			tmp = tmp->next;
-		}
-		// ft_set_null_level(farm);
+		// head = tmp;
+		// while (tmp){
+		// 	printf("Top: %d\n", tmp->id);
+		// 	tmp = tmp->next;
+		// }
+		ft_set_null_level(farm);
 		// printf("ok\n");
-		// i = -1;
-		// while (++i < tmp_block_flow->size)
-		// 	printf("Top: %d\n", tmp_block_flow->tops[i]);
+		
 		// if (ft_compare_flow(best, tmp_block_flow))
 		// 	ft_update_farm(farm, best, tmp_block_flow);
 	}

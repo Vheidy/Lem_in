@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_form_route.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:08:41 by polina            #+#    #+#             */
-/*   Updated: 2020/11/26 12:31:59 by polina           ###   ########.fr       */
+/*   Updated: 2020/11/26 16:50:45 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ t_route	**ft_init_route(t_route **route, room *tmp_room, farm *farm)
 		(*tmp) = (*tmp)->next;
 	}
 	(*tmp)->next = NULL;
-	(*tmp)->size = tmp_room->level + 2;
+	(*tmp)->size = tmp_room->level + 1;
 	(*tmp)->tops = malloc(sizeof(int) * (*tmp)->size);
 	(*tmp)->tops[0] = farm->id_start;
-	(*tmp)->tops[tmp_room->level + 1] = farm->id_end;
+	// (*tmp)->tops[tmp_room->level + 1] = farm->id_end;
 	return (tmp);
 }
 
@@ -82,11 +82,12 @@ void	ft_form_route(t_route **route, int id, farm *farm, int fl)
 	t_link	*tmp_link;
 	t_route	**tmp;
 
-	i = farm->rooms[id]->level + 1;
-	// printf("ID: %d\n", id);
 	tmp_room = farm->rooms[id];
+	i = tmp_room->level + 1;
+	// printf("ID: %d\n", id);
+	printf("Level: %d\n", tmp_room->level);
 	tmp = ft_init_route(route, tmp_room, farm);
-	// printf("Size: %d\n",( *tmp)->size);
+	printf("Size: %d\n",( *tmp)->size);
 	while (--i > 0)
 	{
 		(*tmp)->tops[i] = id;
