@@ -35,6 +35,7 @@ void	ft_print_tab(t_node *hash_tab[HT_SIZE])
 void	ft_print_farm(farm *farm)
 {
 	int i = 0;
+	printf("PRINT FARM\n");
 	printf("Count ants: %d\n", farm->count_ants);
 	printf("Count rooms: %d\n", farm->count_rooms);
 	printf("ID start: %d\n", farm->id_start);
@@ -44,9 +45,9 @@ void	ft_print_farm(farm *farm)
 		t_link *tmp;
 		printf("Name room: %s\n", farm->rooms[i]->name);
 		printf("ID room: %d\n", farm->rooms[i]->id);
-		printf("Level room: %d\n", farm->rooms[i]->level);
-		// printf("In room: %d\n", farm->rooms[i]->in);
-		// printf("Out room: %d\n", farm->rooms[i]->out);
+		// printf("Level room: %d\n", farm->rooms[i]->level);
+		printf("In room: %d\n", farm->rooms[i]->in);
+		printf("Out room: %d\n", farm->rooms[i]->out);
 		// printf("In_out room: %d\n", farm->rooms[i]->in_out);
 		tmp = farm->rooms[i]->edges;
 		if (tmp)
@@ -71,4 +72,48 @@ void	ft_print_farm(farm *farm)
 		i++;
 		// printf("ok\n");
 	}
+}
+
+void	ft_print_binary_tops(room **bin_room, farm *farm)
+{
+	int i = -1;
+
+	while (++i < (farm->count_rooms * 2 - 2))
+	{
+		t_link *tmp;
+		// printf("oooooooK\n");
+		// printf("%d\n", i);
+		printf("ID room: %d\n", bin_room[i]->id);
+		printf("Level room: %d\n", bin_room[i]->level);
+		// printf("Id neib: %d\n", bin_room[i]->edges->curr);
+		tmp = bin_room[i]->edges;
+		if (tmp)
+		{
+			printf("Id neib: %d, Cap: %d, Flow: %d\n", tmp->curr, tmp->cap, tmp->flow);
+			while (tmp->next)
+			{
+				tmp = tmp->next;
+				printf("Id neib: %d, Cap: %d, Flow: %d\n", tmp->curr, tmp->cap, tmp->flow);
+			}
+		}
+		printf("----\n");
+	}
+}
+
+void	ft_print_route(t_route **route, farm *farm)
+{
+	int i = -1;
+	t_route *tmp = *route;
+
+	// printf("ТУЦ\n");
+	while (tmp)
+	{
+		i = -1;
+		// printf("Size %d\n", tmp->size);
+		while (++i < tmp->size)
+			printf("Top: %s\n", farm->rooms[tmp->tops[i]]->name);
+		tmp = tmp->next;
+		printf("---------\n");
+	}
+		printf("---------\n");
 }

@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:55:25 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/26 19:14:58 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/30 00:26:41 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
+
+// void	ft_add_line(farm *farm, char **str)
+// {
+// 	int	size;
+
+// 	if (!farm->output)
+// 	{
+// 		farm->output = malloc(sizeof(char*) * 2);
+// 		farm->output[0] = *str;
+// 		farm->output[1] = NULL;
+// 	}
+// 	else
+// 	{
+// 		ft_del_output(farm->output);
+// 	}
+	
+// }
 
 void	error()
 {
@@ -51,27 +68,6 @@ t_node	*ft_new_list(char *name, int id)
 }
 
 /*
- ** выставление на нул всех параметров в структуре
-*/
-void	ft_set_null(t_parse *st)
-{
-	int	i;
-
-	i = -1;
-
-	st->start = NULL;
-	st->end = NULL;
-	st->num_ant = 0;
-	st->count_rooms = 0;
-	while (++i < HT_SIZE)
-	{
-		// ft_memdel((void **)&st->hash_tab[i]->name);
-		// ft_memdel((void **)&st->hash_tab[i]);
-		st->hash_tab[i] = NULL;
-	}
-}
-
-/*
  ** удаление структуры для парсинга
 */
 void	ft_del_st(t_parse *st)
@@ -107,32 +103,19 @@ void	ft_del_st(t_parse *st)
 	// free(st->hash_tab);
 }
 
-void	ft_init_in_out(farm *farm)
-{
-	farm->rooms[farm->id_start]->out = 1;
-	farm->rooms[farm->id_start]->in = 0;
-	farm->rooms[farm->id_start]->in_out = 1;
-	farm->rooms[farm->id_end]->in = 1;
-	farm->rooms[farm->id_end]->out = 0;
-	farm->rooms[farm->id_end]->in_out = 1;
-}
-
 int		main() {
 	t_parse	st;
 	farm	farm;
+	room	**binary_rooms;
 
 	// ft_set_null(&st);
+	binary_rooms = NULL;
 	ft_bzero(&st, sizeof(t_parse));
 	ft_read(&st, &farm);
 	// ft_print_tab(st.hash_tab);
-	ft_init_in_out(&farm);
 	// ft_print_farm(&farm);
-	// printf("ok\n");
-	// ft_del_st(&st); ??!!
-	// printf("ok\n");
-	// ft_memdel(&(&st));
-	// ft_print_farm(&farm);
-	// ft_set_null(&st);
-	ft_algo(&farm);
+	ft_create_binary_tops(&farm, &binary_rooms);
+	ft_link_binary_tops(&farm, &binary_rooms);
+	ft_algo(&farm, &binary_rooms);
 	return (0);
 }

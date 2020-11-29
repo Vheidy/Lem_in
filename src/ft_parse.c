@@ -6,7 +6,7 @@
 /*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:41 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/26 13:45:11 by polina           ###   ########.fr       */
+/*   Updated: 2020/11/30 00:27:12 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ room	*ft_create_room(int id, char *name)
 	new_room->id = id;
 	new_room->level = -1;
 	new_room->visited = 0;
-	new_room->in = 0;
-	new_room->out = 0;
-	new_room->in_out = 0;
+	new_room->in = -1;
+	new_room->out = -1;
 	new_room->name = name;
 	return (new_room);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bfs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 16:08:57 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/26 19:22:19 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/11/29 23:15:25 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,40 @@
  ** И ту которая будет складывать блок поток и текущий и смотреть разрушились ли ребра
     добавить алгоритм движения по количеству муравьев
 */
+
+
+void	ft_transform_bin_route(t_route **res, t_route **best, farm *farm, int count)
+{
+	t_route	*tmp;
+	t_route	*tmp_best;
+	int		i;
+	int		j;
+
+	tmp_best = *best;
+	*res = ft_init_route((tmp_best->size - 2) / 2 + 2, farm->id_start, farm->id_end, 0);
+	while (tmp_best)
+	{
+		i = 1;
+		count = 0;
+		tmp = *res;
+		while((tmp)->next)
+			tmp = (tmp)->next;
+		while (count < (tmp)->size - 1)
+		{
+			j = 0;
+			while (farm->rooms[j]->in != tmp_best->tops[i])
+				j++;
+			(tmp)->tops[count++] = j;
+			i += 2;
+		}
+		if (tmp_best->next)
+			(tmp)->next = ft_init_route((tmp_best->next->size - 2) / 2 + 2, farm->id_start, farm->id_end, 0);
+		tmp_best = tmp_best->next;
+	}
+	ft_print_route(res);
+	ft_del_route(best);
+}
+
 
 /*
  ** получить первый элемент и удалить его из очереди
