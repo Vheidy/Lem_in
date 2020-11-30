@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_room.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asybil <asybil@student.21-school.ru >      +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:19 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/21 02:04:31 by asybil           ###   ########.fr       */
+/*   Updated: 2020/11/30 17:51:26 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		ft_check_name(t_node *hash_tab[HT_SIZE], char *name)
  ** проверка на валидность координат, первый символ, 
  ** и проверка на существование комнаты с таким именем
 */
-char	*ft_check_room(char *str, t_node *hash_tab[HT_SIZE])
+char	*ft_check_room(char *str, t_node *hash_tab[HT_SIZE], farm *farm)
 {
 	char			*name;
 	long long int	elem_first;
@@ -49,6 +49,7 @@ char	*ft_check_room(char *str, t_node *hash_tab[HT_SIZE])
 	char			*tmp_space;
 	int				len;
 
+	ft_add_line(farm, &str);
 	if (!(tmp_space = ft_strchr(str, ' ')))
 		return (NULL);
 	len = ft_strlen(tmp_space);
@@ -72,16 +73,19 @@ char	*ft_check_room(char *str, t_node *hash_tab[HT_SIZE])
 /*
  ** проверяет на валидность следующую строку и возвращает ее имя
 */
-char	*ft_check_next_room(char **buf, t_node *hash_tab[HT_SIZE])
+char	*ft_check_next_room(char **buf, t_node *hash_tab[HT_SIZE], farm *farm)
 {
 	int		red;
 	char	*name;
 
 	name = NULL;
-	ft_strdel(buf);
+	// printf("%s\n", *buf);
+	ft_add_line(farm, buf);
+	// ft_print_output(farm);
 	if ((red = get_next_line(0, buf)))
 	{
-		if (!(name = ft_check_room(*buf, hash_tab)))
+	// printf("oooKOKOK\n");
+		if (!(name = ft_check_room(*buf, hash_tab, farm)))
 			error();
 	}
 	else
@@ -122,21 +126,26 @@ int		ft_parse_room(t_parse *st, int fl, char **buf, farm *farm)
 
 	id = 0;
 	while (!fl && (red = get_next_line(0, buf)))
+	{
+		// printf("%s\n", *buf);
 		if (*buf[0] == '#' && !fl)
 		{
 			if (!ft_strcmp(*buf, "##start"))
 				ft_add_in_hash_tab((st->start = \
-				ft_check_next_room(buf, st->hash_tab)), st, id++);
+				ft_check_next_room(buf, st->hash_tab, farm)), st, id++);
 			else if (!ft_strcmp(*buf,  "##end"))
 				ft_add_in_hash_tab((st->end = \
-				ft_check_next_room(buf, st->hash_tab)), st, id++);
+				ft_check_next_room(buf, st->hash_tab, farm)), st, id++);
+			else
+				ft_add_line(farm, buf);
 		}
-		else if (!fl && (name = ft_check_room(*buf, st->hash_tab)))
+		else if (!fl && (name = ft_check_room(*buf, st->hash_tab, farm)))
 			ft_add_in_hash_tab(name, st, id++);
 		else if (ft_check_link(*buf, st->hash_tab))
 			fl = ft_init_farm(farm, st);
 		else
 			return (0);
+	}
 	if (!fl)
 		return (0);
 	return (1);

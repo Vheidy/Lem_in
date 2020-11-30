@@ -109,11 +109,21 @@ void	ft_print_route(t_route **route, farm *farm)
 	while (tmp)
 	{
 		i = -1;
-		// printf("Size %d\n", tmp->size);
+		printf("Count_ants %d\n", tmp->count_ants);
 		while (++i < tmp->size)
 			printf("Top: %s\n", farm->rooms[tmp->tops[i]]->name);
 		tmp = tmp->next;
 		printf("---------\n");
 	}
 		printf("---------\n");
+}
+
+void	ft_print_output(farm *farm)
+{
+	int i = -1;
+
+	printf("OUTPUT\n");
+	printf("Size output %d\n", farm->count_str);
+	while (farm->output[++i])
+		printf("%s\n", farm->output[i]);
 }

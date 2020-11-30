@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/30 00:26:44 by polina           ###   ########.fr       */
+/*   Updated: 2020/11/30 19:04:26 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,15 @@ typedef struct		s_route
 }					t_route;
 
 
-// struct s_ant
-// {
-// 	room	*current_room;
-// 	room	*target_room;
-// 	int		id;
-// };
+typedef struct s_ant
+{
+	int	current;
+	int	*tops;
+	int		id;
+}				ant;
 
 // typedef struct s_ant ant;
+
 
 typedef struct s_farm
 {
@@ -83,12 +84,16 @@ typedef struct s_farm
 	int		id_start;
 	int		id_end;
 	char	**output;
+	int		count_str;
+	int		count_move;
 	// ant		*ants;
-	// ant		**ants;
+	ant		*ants;
 	int		count_rooms;
 	int		count_ants;
 }				farm;
 
+void	ft_move_print_ants(farm *farm, t_route *best);
+void	ft_add_line(farm *farm, char **str);
 t_route	*ft_init_route(int size, int id_first, int id_last, int fl);
 void	ft_create_binary_tops(farm *farm, room ***binary_rooms);
 void	ft_link_binary_tops(farm *farm, room ***bin_rooms);
@@ -106,7 +111,7 @@ room	*ft_create_room(int id, char *name);
 // void	ft_form_route(t_route **route, int id, farm *farm);
 t_link	*ft_new_link(int id_f, int id_s, int cap);
 void	ft_algo(farm *farm, room ***bin_rooms);
-void	ft_read_ants(char **buf, t_parse *st);
+void	ft_read_ants(char **buf, t_parse *st, farm *farm);
 int		ft_check_name(t_node *hash_tab[HT_SIZE], char *name);
 int		ft_init_farm(farm *farm, t_parse *st);
 int		ft_check_link(char *buf, t_node *hash_tab[HT_SIZE]);
@@ -125,5 +130,6 @@ void	ft_print_tab(t_node *hash_tab[HT_SIZE]);
 void	ft_print_farm(farm *farm);
 void	ft_print_binary_tops(room **bin_room, farm *farm);
 void	ft_print_route(t_route **route, farm *farm);
+void	ft_print_output(farm *farm);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_link.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:09 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/30 00:26:56 by polina           ###   ########.fr       */
+/*   Updated: 2020/11/30 17:19:02 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  ** считывание муравьев и проверка что в первой строке число
 */
-void	ft_read_ants(char **buf, t_parse *st)
+void	ft_read_ants(char **buf, t_parse *st, farm *farm)
 {
 	int red;
 	char *tmp;
@@ -33,7 +33,7 @@ void	ft_read_ants(char **buf, t_parse *st)
 		}
 		if (!(st->num_ant = ft_atoi(*buf)))
 			error();
-		ft_strdel(buf);
+		ft_add_line(farm, buf);
 	}
 	else
 		error();

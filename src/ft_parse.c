@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:41 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/30 00:27:12 by polina           ###   ########.fr       */
+/*   Updated: 2020/11/30 17:46:41 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,24 +100,26 @@ int		ft_init_farm(farm *farm, t_parse *st)
  ** передает дальше для считывания комнат и связей
 */
 
-int		ft_read(t_parse *st, farm	*farm)
+int		ft_read(t_parse *st, farm *farm)
 {
 	int		red;
 	char	*buf;
 	int		fl;
 
 	fl = 0;
-	ft_read_ants(&buf, st);
+	ft_read_ants(&buf, st, farm);
+	// printf("OUTPUT\n%s\n", farm->output[0]);
 	if (!ft_parse_room(st, fl, &buf, farm))
 			error();
+	// printf("oooKOKOK\n");
 	ft_parse_link(buf, farm, st);
-	ft_strdel(&buf);
+	ft_add_line(farm, &buf);
 	while ((red = get_next_line(0, &buf)))
 	{
 		// printf("ok\n");
 		if(buf[0] != '#')
 			ft_parse_link(buf, farm, st);
-		ft_strdel(&buf);
+		ft_add_line(farm, &buf);
 	}
 	return (0);
 }

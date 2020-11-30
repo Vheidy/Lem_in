@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_choose_best.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 19:16:57 by polina            #+#    #+#             */
-/*   Updated: 2020/11/29 23:47:38 by polina           ###   ########.fr       */
+/*   Updated: 2020/11/30 18:21:13 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	ft_choose_best(t_route **best, room ***bin_rooms, farm *farm)
 		curr_res = ft_count_move(&curr_route, farm);
 		if (curr_res < best_res)
 		{
+			farm->count_move = curr_res;
 			ft_del_route(best);
 			(*best) = curr_route;
 		}

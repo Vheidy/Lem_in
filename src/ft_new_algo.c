@@ -88,6 +88,7 @@ void	ft_transform_bin_route(t_route **best, farm *farm, int count)
 		tmp = res;
 		while((tmp)->next)
 			tmp = (tmp)->next;
+		tmp->count_ants = tmp_best->count_ants;
 		while (count < (tmp)->size - 1)
 		{
 			j = 0;
@@ -130,5 +131,5 @@ void	ft_algo(farm *farm, room ***bin_rooms)
 	if (!best)
 		error();
 	ft_transform_bin_route(&best, farm, count);
-	ft_print_route(&best, farm);
+	ft_move_print_ants(farm, best);
 }
