@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_link.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:09 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/30 17:19:02 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/01 22:48:18 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ char **name_f, char **name_s)
 	if ((ft_check_name(hash_tab, *name_f) && \
 	ft_check_name(hash_tab,*name_s)))
 		return (0);
+	// if (!ft_strcmp(buf, "Hqr7-Iwa8"))
+	// 	printf("here\n");
 	return (1);
 }
 
@@ -131,6 +133,8 @@ void	ft_parse_link(char *buf, farm *farm, t_parse *st)
 	id_first = 0;
 	if (!ft_work_links(buf, st->hash_tab, &name_first, &name_sec)) // malloc * 2
 		error();
+	// if (!ft_strcmp(buf, "Hqr7-Iwa8"))
+	// 	printf("here\n");
 	id_first = ft_get_elem(name_first, st->hash_tab)->id;
 	id_sec = ft_get_elem(name_sec, st->hash_tab)->id;
 	ft_add_link(farm, id_first, id_sec, 1);

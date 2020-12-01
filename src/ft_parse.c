@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:41 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/30 17:46:41 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/01 22:51:32 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,15 @@ int		ft_read(t_parse *st, farm *farm)
 			error();
 	// printf("oooKOKOK\n");
 	ft_parse_link(buf, farm, st);
-	ft_add_line(farm, &buf);
+	// ft_add_line(farm, &buf);
 	while ((red = get_next_line(0, &buf)))
 	{
-		// printf("ok\n");
+		printf("%s\n", buf);
 		if(buf[0] != '#')
+		{
 			ft_parse_link(buf, farm, st);
+			printf("OOOOK\n");
+		}
 		ft_add_line(farm, &buf);
 	}
 	return (0);

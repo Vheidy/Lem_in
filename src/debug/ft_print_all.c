@@ -17,7 +17,7 @@ void	ft_print_tab(t_node *hash_tab[HT_SIZE])
 			tmp = hash_tab[i];
 			printf("Name %s\n", tmp->name);
 			printf("ID %d\n", tmp->id);
-			printf("I %d\n", i);
+			// printf("I %d\n", i);
 			while (tmp->next)
 			{
 				printf("%s\n", tmp->name);
@@ -100,7 +100,7 @@ void	ft_print_binary_tops(room **bin_room, farm *farm)
 	}
 }
 
-void	ft_print_route(t_route **route, farm *farm)
+void	ft_print_route(t_route **route)
 {
 	int i = -1;
 	t_route *tmp = *route;
@@ -111,7 +111,7 @@ void	ft_print_route(t_route **route, farm *farm)
 		i = -1;
 		printf("Count_ants %d\n", tmp->count_ants);
 		while (++i < tmp->size)
-			printf("Top: %s\n", farm->rooms[tmp->tops[i]]->name);
+			printf("Top: %d\n", tmp->tops[i]);
 		tmp = tmp->next;
 		printf("---------\n");
 	}

@@ -131,6 +131,7 @@ void	ft_algo(farm *farm, room ***bin_rooms)
 	if (!best)
 		error();
 	ft_transform_bin_route(&best, farm, count);
+	// ft_print_route(&best, farm);
 	// ft_print_farm(farm);
 	ft_print_output(farm);
 	ft_move_print_ants(farm, best);

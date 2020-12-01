@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/01 18:06:05 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/01 22:24:57 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ t_node	*ft_new_list(char *name, int id);
 void	ft_print_tab(t_node *hash_tab[HT_SIZE]);
 void	ft_print_farm(farm *farm);
 void	ft_print_binary_tops(room **bin_room, farm *farm);
-void	ft_print_route(t_route **route, farm *farm);
+void	ft_print_route(t_route **route);
 void	ft_print_output(farm *farm);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_choose_best.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 19:16:57 by polina            #+#    #+#             */
-/*   Updated: 2020/12/01 19:09:09 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/01 22:28:37 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_route	*ft_find_min_route(t_route **route)
 	tmp = *route;
 	while (tmp)
 	{
-		if (tmp->size + tmp->count_ants < res->size + res->count_ants)
+		if (tmp->size / 2 + tmp->count_ants < res->size / 2 + res->count_ants)
 			res = tmp;
 		tmp = tmp->next;
 	}
@@ -44,13 +44,16 @@ int		ft_count_move(t_route **route, farm *farm)
 	ants = farm->count_ants;
 	// printf("Size route %d\n", (*route)->size);
 	first = ft_find_min_route(route);
-	first->count_ants++;
+	// printf("farm c a: %d\n", farm->count_ants);
+	first->count_ants = 1;
 	while (--ants)
 	{
+		// printf("%d\n", ants);
 		tmp = ft_find_min_route(route);
 		tmp->count_ants++;
 	}
-	return (first->count_ants + first->size / 2 - 1);
+	printf("count ants: %d, size %d\n", first->count_ants, first->size);
+	return (first->count_ants + first->size / 2);
 }
 
 /*
@@ -65,14 +68,21 @@ void	ft_choose_best(t_route **best, room ***bin_rooms, farm *farm)
 	curr_route = ft_create_route(*bin_rooms, farm);
 	ft_set_null_visited(farm, bin_rooms);
 	if (!*best)
+	{
 		(*best) = curr_route;
+		(*best)->count_ants = farm->count_ants;
+		farm->count_move = (*best)->size / 2 + (*best)->count_ants;
+		// printf("count ants  %d first count move: %d\n", (*best)->count_ants, farm->count_move);
+	}
 	else
 	{
 		
 		best_res = ft_count_move(best, farm);
 		curr_res = ft_count_move(&curr_route, farm);
 		// printf("best %d, curr %d\n", best_res, curr_res);
-		// ft_print_route(&curr_route, farm);
+		// ft_print_route(best, farm);
+		// printf("%d\n", curr_route->next->size);
+		// ft_print_route(&curr_route);
 		if (curr_res < best_res)
 		{
 			farm->count_move = curr_res;

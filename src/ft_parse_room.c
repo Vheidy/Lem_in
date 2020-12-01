@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_room.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:19 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/30 17:51:26 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/01 22:57:00 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,17 @@ int		ft_check_name(t_node *hash_tab[HT_SIZE], char *name)
 		return (0);
 	else if (tmp)
 	{
-		while (tmp->next)
+		while (tmp)
 		{
 			if (!ft_strcmp(tmp->name, name))
 				return (0);
 			tmp = tmp->next;
 		}
 	}
+	// if (!ft_strcmp(name, "Hqr7"))
+	// 	ft_print_tab(hash_tab);
+	// if (!ft_strcmp(name, "Iwa8"))
+	// 	printf("here\n");
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:08:41 by polina            #+#    #+#             */
-/*   Updated: 2020/11/29 23:01:41 by polina           ###   ########.fr       */
+/*   Updated: 2020/12/01 22:22:10 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ t_route	*ft_create_route(room **bin_rooms, farm *farm)
 		ft_support_create_route(edges, bin_rooms, farm, &res);
 		edges = edges->next;
 	}
+	// ft_print_route(&res, farm);
 	return (res);
 }
 

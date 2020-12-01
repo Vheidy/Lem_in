@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_ants.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 18:18:13 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/01 19:22:19 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/01 21:47:34 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	ft_move_print_ants(farm *farm, t_route *best)
 	index = 0;
 	tmp = best;
 	i = farm->count_ants;
-	// printf("%d\n", farm->count_ants);
+	// printf("%d\n", farm->count_move);
 	farm->ants = malloc(sizeof(ant) * farm->count_ants);
 	ft_init_ants(farm);
 	while (i--)
@@ -104,6 +104,7 @@ void	ft_move_print_ants(farm *farm, t_route *best)
 		ft_move_ants(farm); // сдвигаем всех
 		while (tmp)
 		{
+			// printf("tmp->count_ants %d\n", tmp->count_ants);
 			if (tmp->count_ants)
 			{
 				farm->ants[index].current = tmp->tops[1];
@@ -112,13 +113,14 @@ void	ft_move_print_ants(farm *farm, t_route *best)
 				// printf("Index ant %d, curr name  %s\n", index, farm->rooms[farm->ants[index - 1].current]->name);
 				// ft_print_tops(farm->ants[index - 1].tops, tmp->size);
 				tmp->count_ants--;
+				// farm->count_move--;
 			}
 			tmp = tmp->next;
 		}
 		ft_print_ants(farm); // вывод какой муравей в какой пизиции
 		farm->count_move--;
 	}
-	while (farm->count_move-- > 0)
+	while (--farm->count_move > 0)
 	{
 		ft_move_ants(farm);
 		ft_print_ants(farm);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:55:25 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/30 17:58:52 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/01 22:42:59 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ int		main() {
 	ft_bzero(&st, sizeof(t_parse));
 	ft_bzero(&farm, sizeof(farm));
 	// printf("oooKOKOK\n");
+	
 	ft_read(&st, &farm);
 	// ft_print_output(&farm);
 	// ft_print_tab(st.hash_tab);
