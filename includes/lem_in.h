@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/11/30 19:04:26 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/01 18:06:05 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_ant
 {
 	int	current;
 	int	*tops;
+	int	size;
 	int		id;
 }				ant;
 

@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 19:16:57 by polina            #+#    #+#             */
-/*   Updated: 2020/11/30 18:21:13 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/01 19:09:09 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		ft_count_move(t_route **route, farm *farm)
 		tmp = ft_find_min_route(route);
 		tmp->count_ants++;
 	}
-	return (first->count_ants + first->size / 2 + 1);
+	return (first->count_ants + first->size / 2 - 1);
 }
 
 /*
@@ -71,6 +71,8 @@ void	ft_choose_best(t_route **best, room ***bin_rooms, farm *farm)
 		
 		best_res = ft_count_move(best, farm);
 		curr_res = ft_count_move(&curr_route, farm);
+		// printf("best %d, curr %d\n", best_res, curr_res);
+		// ft_print_route(&curr_route, farm);
 		if (curr_res < best_res)
 		{
 			farm->count_move = curr_res;

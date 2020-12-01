@@ -122,8 +122,9 @@ void	ft_print_output(farm *farm)
 {
 	int i = -1;
 
-	printf("OUTPUT\n");
-	printf("Size output %d\n", farm->count_str);
+	// printf("OUTPUT\n");
+	// printf("Size output %d\n", farm->count_str);
 	while (farm->output[++i])
 		printf("%s\n", farm->output[i]);
+	printf("\n");
 }
