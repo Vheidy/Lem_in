@@ -1,40 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_power.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/03 17:56:56 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 16:58:10 by vheidy           ###   ########.fr       */
+/*   Created: 2020/07/06 18:01:33 by rtacos            #+#    #+#             */
+/*   Updated: 2020/12/02 20:16:28 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-char	*ft_strdup(const char *s1)
+int		ft_power(int num, int power)
 {
-	char	*str;
-	int		len;
-	int		i;
+	int		rez;
 
-	i = 0;
-	len = 0;
-	str = NULL;
-	if (s1)
-	{
-		while (s1[len] != '\0')
-			len++;
-		str = (char *)malloc(sizeof(char) * (len + 1));
-		if (str == NULL)
-			return (0);
-		while (*s1)
-		{
-			str[i] = *s1;
-			i++;
-			s1++;
-		}
-		str[i] = '\0';
-	}
-	return (str);
+	rez = 1;
+	if (power == 0)
+		return (1);
+	while (power-- > 0)
+		rez *= num;
+	return (rez);
 }

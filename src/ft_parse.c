@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:41 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/01 22:51:32 by polina           ###   ########.fr       */
+/*   Updated: 2020/12/02 19:55:04 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ room	*ft_create_room(int id, char *name)
 	new_room->visited = 0;
 	new_room->in = -1;
 	new_room->out = -1;
-	new_room->name = name;
+	// new_room->name = name;
+	new_room->name = ft_strdup(name);
 	return (new_room);
 }
 
@@ -72,7 +73,7 @@ t_node	*ft_get_elem(char *name, t_node *hash_tab[HT_SIZE])
 	while (tmp->next && ft_strcmp(tmp->name, name))
 		tmp = tmp->next;
 	if (!tmp->next && ft_strcmp(tmp->name, name))
-		error();
+		error_one();
 	return (tmp);
 }
 
@@ -83,14 +84,14 @@ t_node	*ft_get_elem(char *name, t_node *hash_tab[HT_SIZE])
 int		ft_init_farm(farm *farm, t_parse *st)
 {
 	if (!st->start || !st->end)
-		error();
+		error_one();
 	farm->id_start = ft_get_elem(st->start, st->hash_tab)->id;
 	farm->id_end = ft_get_elem(st->end, st->hash_tab)->id;
 	// printf("id_end: %d\n", farm->id_end);
 	farm->count_rooms = st->count_rooms;
 	farm->count_ants = st->num_ant;
-	if (!(farm->rooms = ft_memalloc(sizeof(room*) * st->count_rooms + 1)))
-		error();
+	if (!(farm->rooms = malloc(sizeof(room *) * st->count_rooms)))
+		error_one();
 	ft_farm_set_room(farm->rooms, farm->count_rooms, st);
 	return (1);
 }
@@ -110,17 +111,17 @@ int		ft_read(t_parse *st, farm *farm)
 	ft_read_ants(&buf, st, farm);
 	// printf("OUTPUT\n%s\n", farm->output[0]);
 	if (!ft_parse_room(st, fl, &buf, farm))
-			error();
+			error_one();
 	// printf("oooKOKOK\n");
 	ft_parse_link(buf, farm, st);
 	// ft_add_line(farm, &buf);
 	while ((red = get_next_line(0, &buf)))
 	{
-		printf("%s\n", buf);
+		// printf("%s\n", buf);
 		if(buf[0] != '#')
 		{
 			ft_parse_link(buf, farm, st);
-			printf("OOOOK\n");
+			// printf("OOOOK\n");
 		}
 		ft_add_line(farm, &buf);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_room.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:19 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/01 22:57:00 by polina           ###   ########.fr       */
+/*   Updated: 2020/12/02 19:55:42 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*ft_check_room(char *str, t_node *hash_tab[HT_SIZE], farm *farm)
 		return (NULL);
 	len = ft_strlen(tmp_space);
 	if (!(name = ft_strsub(str, 0, tmp_space - str)) || name[0] == 'L') // malloc
-		error();
+		error_one();
 	while (--len >= 0){
 		if (!(tmp_space[len] >= '0' && \
 		tmp_space[len] <= '9') && tmp_space[len] != ' ')
@@ -90,10 +90,10 @@ char	*ft_check_next_room(char **buf, t_node *hash_tab[HT_SIZE], farm *farm)
 	{
 	// printf("oooKOKOK\n");
 		if (!(name = ft_check_room(*buf, hash_tab, farm)))
-			error();
+			error_one();
 	}
 	else
-		error();
+		error_one();
 	return (name);
 }
 
@@ -108,6 +108,8 @@ void	ft_add_in_hash_tab(char *name, t_parse *st, int id)
 
 	index = ft_hasher(name);
 	tmp = st->hash_tab[index];
+	// if (index == 216)
+	// 	printf("%s\n", name);
 	if (!st->hash_tab[index])
 		st->hash_tab[index] = ft_new_list(name, id);
 	else
@@ -117,6 +119,11 @@ void	ft_add_in_hash_tab(char *name, t_parse *st, int id)
 		tmp->next = ft_new_list(name, id);
 	}
 	st->count_rooms++;
+	// if (index == 216)
+	// {
+	// 	free(st->hash_tab[index]->name);
+	// 	exit(0);
+	// }
 }
 
 /*

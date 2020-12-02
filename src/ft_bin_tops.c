@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bin_tops.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 19:29:35 by polina            #+#    #+#             */
-/*   Updated: 2020/11/29 19:58:01 by polina           ###   ########.fr       */
+/*   Updated: 2020/12/02 19:56:42 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /*
  ** добавляет линки к бинарникам
 */
-void	ft_add_bin_link(room **rooms, int id_first, int id_sec, \
+void	ft_add_bin_link(room ***rooms, int id_first, int id_sec, \
 int cap)
 {
 	t_link *tmp;
 
-	tmp = (rooms)[id_first]->edges;
+	tmp = (*rooms)[id_first]->edges;
 	if (!tmp)
-		(rooms)[id_first]->edges = ft_new_link(id_first, id_sec, cap);
+		(*rooms)[id_first]->edges = ft_new_link(id_first, id_sec, cap);
 	else
 	{
 		while (tmp->next)
@@ -64,13 +64,13 @@ void	ft_create_binary_tops(farm *farm, room ***binary_rooms)
 
 	i = -1;
 	binary_id = 0;
-	if (!(*binary_rooms = ft_memalloc(sizeof(room*) * (farm->count_rooms * 2) - 2)))
-		error();
+	if (!(*binary_rooms = malloc(sizeof(room*) * (farm->count_rooms * 2) - 2)))
+		error_one();
 	while (++i < farm->count_rooms)
 	{
 		ft_create_in_out(i, binary_rooms, farm, &binary_id);
 		if (farm->rooms[i]->in != -1 && farm->rooms[i]->out != -1)
-			ft_add_bin_link(*binary_rooms, farm->rooms[i]->in, farm->rooms[i]->out, 1);
+			ft_add_bin_link(binary_rooms, farm->rooms[i]->in, farm->rooms[i]->out, 1);
 	}
 }
 
@@ -88,11 +88,11 @@ void	ft_add_link_between_inout(farm *farm, room ***bin_rooms, int fl, int i)
 		if (!fl)
 		{
 			if (farm->rooms[edges->curr]->out != -1)
-				ft_add_bin_link(*bin_rooms, farm->rooms[i]->in, farm->rooms[edges->curr]->out, 0);
+				ft_add_bin_link(bin_rooms, farm->rooms[i]->in, farm->rooms[edges->curr]->out, 0);
 		}
 		else
 			if (farm->rooms[edges->curr]->in != -1)
-					ft_add_bin_link(*bin_rooms, farm->rooms[i]->out, farm->rooms[edges->curr]->in, 1);
+					ft_add_bin_link(bin_rooms, farm->rooms[i]->out, farm->rooms[edges->curr]->in, 1);
 		edges = edges->next;
 	}
 }

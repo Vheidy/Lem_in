@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_link.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:09 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/01 22:48:18 by polina           ###   ########.fr       */
+/*   Updated: 2020/12/02 19:56:02 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ void	ft_read_ants(char **buf, t_parse *st, farm *farm)
 		while (*tmp)
 		{
 			if (!ft_isdigit(*tmp))
-				error();
+				error_one();
 			tmp++;
 		}
 		if (!(st->num_ant = ft_atoi(*buf)))
-			error();
+			error_one();
 		ft_add_line(farm, buf);
 	}
 	else
-		error();
+		error_one();
 }
 
 /*
@@ -80,7 +80,7 @@ int		ft_check_link(char *buf, t_node *hash_tab[HT_SIZE])
 	&name_first, &name_sec))
 		return (0);
 	ft_strdel(&name_first);
-	ft_strdel(&name_first);
+	ft_strdel(&name_sec);
 	return (1);
 }
 
@@ -132,11 +132,13 @@ void	ft_parse_link(char *buf, farm *farm, t_parse *st)
 	id_first = 0;
 	id_first = 0;
 	if (!ft_work_links(buf, st->hash_tab, &name_first, &name_sec)) // malloc * 2
-		error();
+		error_one();
 	// if (!ft_strcmp(buf, "Hqr7-Iwa8"))
 	// 	printf("here\n");
 	id_first = ft_get_elem(name_first, st->hash_tab)->id;
 	id_sec = ft_get_elem(name_sec, st->hash_tab)->id;
+	ft_strdel(&name_first);
+	ft_strdel(&name_sec);
 	ft_add_link(farm, id_first, id_sec, 1);
 	ft_add_link(farm, id_sec, id_first, 1);
 }

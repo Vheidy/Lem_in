@@ -129,10 +129,13 @@ void	ft_algo(farm *farm, room ***bin_rooms)
 		(*bin_rooms)[farm->rooms[farm->id_start]->out]->level = 0;
 	}
 	if (!best)
-		error();
+		error_one();
 	ft_transform_bin_route(&best, farm, count);
 	// ft_print_route(&best, farm);
 	// ft_print_farm(farm);
+	ft_del_bin_rooms(bin_rooms, (farm->count_rooms * 2 - 2));
 	ft_print_output(farm);
 	ft_move_print_ants(farm, best);
+	ft_del_farm(farm);
+	ft_del_route(&best);
 }

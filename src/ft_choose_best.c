@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_choose_best.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 19:16:57 by polina            #+#    #+#             */
-/*   Updated: 2020/12/01 22:28:37 by polina           ###   ########.fr       */
+/*   Updated: 2020/12/02 18:17:24 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int		ft_count_move(t_route **route, farm *farm)
 		tmp = ft_find_min_route(route);
 		tmp->count_ants++;
 	}
-	printf("count ants: %d, size %d\n", first->count_ants, first->size);
+	// printf("count ants: %d, size %d\n", first->count_ants, first->size);
 	return (first->count_ants + first->size / 2);
 }
 
@@ -89,5 +89,8 @@ void	ft_choose_best(t_route **best, room ***bin_rooms, farm *farm)
 			ft_del_route(best);
 			(*best) = curr_route;
 		}
+		else
+			ft_del_route(&curr_route);
+		
 	}
 }

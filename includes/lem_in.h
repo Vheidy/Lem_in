@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/01 22:24:57 by polina           ###   ########.fr       */
+/*   Updated: 2020/12/02 20:38:14 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include "../libft/libft.h"
+# include "../ft_printf/includes/ft_printf.h"
 
 # define HT_SIZE 500
 # define MAX_INT 2147483647
@@ -93,6 +94,13 @@ typedef struct s_farm
 	int		count_ants;
 }				farm;
 
+void	ft_del_st(t_parse *st);
+void	ft_del_output(char ***output);
+void	ft_del_bin_rooms(room ***bin_rooms, int size);
+void	ft_del_output(char ***output);
+void	ft_del_farm(farm *farm);
+void	ft_del_link(t_link **edges);
+
 void	ft_move_print_ants(farm *farm, t_route *best);
 void	ft_add_line(farm *farm, char **str);
 t_route	*ft_init_route(int size, int id_first, int id_last, int fl);
@@ -120,17 +128,17 @@ t_node	*ft_get_elem(char *name, t_node *hash_tab[HT_SIZE]);
 int		ft_parse_room(t_parse *st, int fl, char **buf, farm *farm);
 void	ft_parse_link(char *buf, farm *farm, t_parse *st);
 int		ft_read(t_parse *st, farm	*farm);
-void	error();
+void	error_one();
 int		ft_hasher(char *name);
 t_node	*ft_new_list(char *name, int id);
 
 /*
 ** Debug functions
 */
-void	ft_print_tab(t_node *hash_tab[HT_SIZE]);
-void	ft_print_farm(farm *farm);
-void	ft_print_binary_tops(room **bin_room, farm *farm);
-void	ft_print_route(t_route **route);
+// void	ft_print_tab(t_node *hash_tab[HT_SIZE]);
+// void	ft_print_farm(farm *farm);
+// void	ft_print_binary_tops(room **bin_room, farm *farm);
+// void	ft_print_route(t_route **route);
 void	ft_print_output(farm *farm);
 
 #endif

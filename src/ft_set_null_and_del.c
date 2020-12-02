@@ -3,18 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_set_null_and_del.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 19:19:27 by polina            #+#    #+#             */
-/*   Updated: 2020/11/29 20:15:53 by polina           ###   ########.fr       */
+/*   Updated: 2020/12/02 20:39:26 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
+void	ft_del_farm(farm *farm)
+{
+	int		i;
+	room	*tmp;
+
+	i = -1;
+	ft_del_output(&farm->output);
+	free(farm->ants);
+	i = -1;
+	while (++i < farm->count_rooms)
+	{
+		tmp = farm->rooms[i];
+		ft_strdel(&tmp->name);
+		ft_del_link(&tmp->edges);
+		free(tmp->edges);
+		free(tmp);
+	}
+	free(farm->rooms);
+}
+
 /*
  ** удалить очередь
 */
+
 void	ft_del_deque(t_node **deque)
 {
 	t_node	*tmp;
@@ -34,6 +55,7 @@ void	ft_del_deque(t_node **deque)
 /*
  ** удаление пути
 */
+
 void	ft_del_route(t_route **route)
 {
 	t_route	*tmp;
@@ -44,6 +66,7 @@ void	ft_del_route(t_route **route)
 	while (tmp)
 	{
 		next = tmp->next;
+		free(tmp->tops);
 		free(tmp);
 		tmp = next;
 	}
@@ -53,6 +76,7 @@ void	ft_del_route(t_route **route)
 /*
  ** обнуление слоев
 */
+
 void	ft_set_null_level(farm *farm, room ***rooms)
 {
 	t_node	*deque;
@@ -80,6 +104,7 @@ void	ft_set_null_level(farm *farm, room ***rooms)
 /*
  ** обнуление посещенности комнат
 */
+
 void	ft_set_null_visited(farm *farm, room ***rooms)
 {
 	t_node	*deque;
