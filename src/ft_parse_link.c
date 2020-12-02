@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:09 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 19:56:02 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/02 21:33:44 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 /*
  ** считывание муравьев и проверка что в первой строке число
 */
-void	ft_read_ants(char **buf, t_parse *st, farm *farm)
+
+void	ft_read_ants(char **buf, t_parse *st, t_farm *farm)
 {
-	int red;
-	char *tmp;
+	int		red;
+	char	*tmp;
 
 	red = 0;
 	tmp = 0;
@@ -42,6 +43,7 @@ void	ft_read_ants(char **buf, t_parse *st, farm *farm)
 /*
  ** малочит два имени из линка и проверяет их на существование
 */
+
 int		ft_work_links(char *buf, t_node *hash_tab[HT_SIZE], \
 char **name_f, char **name_s)
 {
@@ -56,19 +58,18 @@ char **name_f, char **name_s)
 	while (*end)
 		end++;
 	if (!(*name_f = ft_strsub(buf, 0, tmp - buf)) || \
-	!(*name_s = ft_strsub(buf, tmp - buf + 1, end - tmp))) // malloc * 2
+	!(*name_s = ft_strsub(buf, tmp - buf + 1, end - tmp)))
 		return (0);
 	if ((ft_check_name(hash_tab, *name_f) && \
-	ft_check_name(hash_tab,*name_s)))
+	ft_check_name(hash_tab, *name_s)))
 		return (0);
-	// if (!ft_strcmp(buf, "Hqr7-Iwa8"))
-	// 	printf("here\n");
 	return (1);
 }
 
 /*
  ** проверка строки с линком на валидность
 */
+
 int		ft_check_link(char *buf, t_node *hash_tab[HT_SIZE])
 {
 	char	*name_first;
@@ -90,7 +91,7 @@ t_link	*ft_new_link(int id_first, int id_sec, int cap)
 
 	new_link = ft_memalloc(sizeof(t_link));
 	if (new_link == NULL)
-		return NULL;
+		return (NULL);
 	new_link->flow = 0;
 	new_link->parent = id_first;
 	new_link->curr = id_sec;
@@ -101,7 +102,8 @@ t_link	*ft_new_link(int id_first, int id_sec, int cap)
 /*
  ** добавляет линк в соседей
 */
-void	ft_add_link(farm *farm, int id_first, int id_sec, \
+
+void	ft_add_link(t_farm *farm, int id_first, int id_sec, \
 int cap)
 {
 	t_link *tmp;
@@ -120,7 +122,8 @@ int cap)
 /*
  ** парсит линки и проверяет на наличие такого имени
 */
-void	ft_parse_link(char *buf, farm *farm, t_parse *st)
+
+void	ft_parse_link(char *buf, t_farm *farm, t_parse *st)
 {
 	char	*name_first;
 	char	*name_sec;
@@ -131,10 +134,8 @@ void	ft_parse_link(char *buf, farm *farm, t_parse *st)
 	name_sec = NULL;
 	id_first = 0;
 	id_first = 0;
-	if (!ft_work_links(buf, st->hash_tab, &name_first, &name_sec)) // malloc * 2
+	if (!ft_work_links(buf, st->hash_tab, &name_first, &name_sec))
 		error_one();
-	// if (!ft_strcmp(buf, "Hqr7-Iwa8"))
-	// 	printf("here\n");
 	id_first = ft_get_elem(name_first, st->hash_tab)->id;
 	id_sec = ft_get_elem(name_sec, st->hash_tab)->id;
 	ft_strdel(&name_first);

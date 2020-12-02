@@ -6,16 +6,16 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 19:19:27 by polina            #+#    #+#             */
-/*   Updated: 2020/12/02 20:39:26 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/02 21:22:18 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
-void	ft_del_farm(farm *farm)
+void	ft_del_farm(t_farm *farm)
 {
 	int		i;
-	room	*tmp;
+	t_room	*tmp;
 
 	i = -1;
 	ft_del_output(&farm->output);
@@ -77,7 +77,7 @@ void	ft_del_route(t_route **route)
  ** обнуление слоев
 */
 
-void	ft_set_null_level(farm *farm, room ***rooms)
+void	ft_set_null_level(t_farm *farm, t_room ***rooms)
 {
 	t_node	*deque;
 	t_link	*edges;
@@ -105,7 +105,7 @@ void	ft_set_null_level(farm *farm, room ***rooms)
  ** обнуление посещенности комнат
 */
 
-void	ft_set_null_visited(farm *farm, room ***rooms)
+void	ft_set_null_visited(t_farm *farm, t_room ***rooms)
 {
 	t_node	*deque;
 	t_link	*edges;

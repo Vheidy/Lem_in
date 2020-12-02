@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 19:16:57 by polina            #+#    #+#             */
-/*   Updated: 2020/12/02 18:17:24 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/02 21:36:18 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_route	*ft_find_min_route(t_route **route)
 /*
  ** подсчет количества ходов по каждому из путей для текущего кол-ва муравьев
 */
-int		ft_count_move(t_route **route, farm *farm)
+int		ft_count_move(t_route **route, t_farm *farm)
 {
 	int		ants;
 	t_route	*tmp;
@@ -59,7 +59,7 @@ int		ft_count_move(t_route **route, farm *farm)
 /*
  ** выбор луучшего маршрута между текущим и новым
 */
-void	ft_choose_best(t_route **best, room ***bin_rooms, farm *farm)
+void	ft_choose_best(t_route **best, t_room ***bin_rooms, t_farm *farm)
 {
 	t_route	*curr_route;
 	int		best_res;
@@ -72,17 +72,12 @@ void	ft_choose_best(t_route **best, room ***bin_rooms, farm *farm)
 		(*best) = curr_route;
 		(*best)->count_ants = farm->count_ants;
 		farm->count_move = (*best)->size / 2 + (*best)->count_ants;
-		// printf("count ants  %d first count move: %d\n", (*best)->count_ants, farm->count_move);
 	}
 	else
 	{
 		
 		best_res = ft_count_move(best, farm);
 		curr_res = ft_count_move(&curr_route, farm);
-		// printf("best %d, curr %d\n", best_res, curr_res);
-		// ft_print_route(best, farm);
-		// printf("%d\n", curr_route->next->size);
-		// ft_print_route(&curr_route);
 		if (curr_res < best_res)
 		{
 			farm->count_move = curr_res;

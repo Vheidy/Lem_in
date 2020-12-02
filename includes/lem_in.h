@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 20:38:14 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/02 21:25:29 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_room
 	char		*name;
 	int			level;
 	int			visited;
-}				room;
+}				t_room;
 
 typedef struct		s_route
 {
@@ -75,59 +75,58 @@ typedef struct s_ant
 	int	*tops;
 	int	size;
 	int		id;
-}				ant;
+}				t_ant;
 
 // typedef struct s_ant ant;
 
 
 typedef struct s_farm
 {
-	room	**rooms;
+	t_room	**rooms;
 	int		id_start;
 	int		id_end;
 	char	**output;
 	int		count_str;
 	int		count_move;
-	// ant		*ants;
-	ant		*ants;
+	t_ant		*ants;
 	int		count_rooms;
 	int		count_ants;
-}				farm;
+}				t_farm;
 
 void	ft_del_st(t_parse *st);
 void	ft_del_output(char ***output);
-void	ft_del_bin_rooms(room ***bin_rooms, int size);
+void	ft_del_bin_rooms(t_room ***bin_rooms, int size);
 void	ft_del_output(char ***output);
-void	ft_del_farm(farm *farm);
+void	ft_del_farm(t_farm *farm);
 void	ft_del_link(t_link **edges);
 
-void	ft_move_print_ants(farm *farm, t_route *best);
-void	ft_add_line(farm *farm, char **str);
+void	ft_move_print_ants(t_farm *farm, t_route *best);
+void	ft_add_line(t_farm *farm, char **str);
 t_route	*ft_init_route(int size, int id_first, int id_last, int fl);
-void	ft_create_binary_tops(farm *farm, room ***binary_rooms);
-void	ft_link_binary_tops(farm *farm, room ***bin_rooms);
+void	ft_create_binary_tops(t_farm *farm, t_room ***binary_rooms);
+void	ft_link_binary_tops(t_farm *farm, t_room ***bin_rooms);
 void	ft_add_deque(t_node **deque, int id);
 int		ft_get_first(t_node **deque);
-int		ft_dfs(room ***rooms, int id_end, int id, farm *farm);
-t_route	*ft_create_route(room **bin_rooms, farm *farm);
-void	ft_choose_best(t_route **best, room ***bin_rooms, farm *farm);
+int		ft_dfs(t_room ***rooms, int id_end, int id, t_farm *farm);
+t_route	*ft_create_route(t_room **bin_rooms, t_farm *farm);
+void	ft_choose_best(t_route **best, t_room ***bin_rooms, t_farm *farm);
 void	ft_del_deque(t_node **deque);
 void	ft_del_route(t_route **route);
-void	ft_set_null_level(farm *farm, room ***rooms);
-void	ft_set_null_visited(farm *farm, room ***rooms);
+void	ft_set_null_level(t_farm *farm, t_room ***rooms);
+void	ft_set_null_visited(t_farm *farm, t_room ***rooms);
 // void	ft_add_link(farm *farm, int id_first, int id_sec, int cap);
-room	*ft_create_room(int id, char *name);
+t_room	*ft_create_room(int id, char *name);
 // void	ft_form_route(t_route **route, int id, farm *farm);
 t_link	*ft_new_link(int id_f, int id_s, int cap);
-void	ft_algo(farm *farm, room ***bin_rooms);
-void	ft_read_ants(char **buf, t_parse *st, farm *farm);
+void	ft_algo(t_farm *farm, t_room ***bin_rooms);
+void	ft_read_ants(char **buf, t_parse *st, t_farm *farm);
 int		ft_check_name(t_node *hash_tab[HT_SIZE], char *name);
-int		ft_init_farm(farm *farm, t_parse *st);
+int		ft_init_farm(t_farm *farm, t_parse *st);
 int		ft_check_link(char *buf, t_node *hash_tab[HT_SIZE]);
 t_node	*ft_get_elem(char *name, t_node *hash_tab[HT_SIZE]);
-int		ft_parse_room(t_parse *st, int fl, char **buf, farm *farm);
-void	ft_parse_link(char *buf, farm *farm, t_parse *st);
-int		ft_read(t_parse *st, farm	*farm);
+int		ft_parse_room(t_parse *st, int fl, char **buf, t_farm *farm);
+void	ft_parse_link(char *buf, t_farm *farm, t_parse *st);
+int		ft_read(t_parse *st, t_farm	*farm);
 void	error_one();
 int		ft_hasher(char *name);
 t_node	*ft_new_list(char *name, int id);
@@ -139,6 +138,6 @@ t_node	*ft_new_list(char *name, int id);
 // void	ft_print_farm(farm *farm);
 // void	ft_print_binary_tops(room **bin_room, farm *farm);
 // void	ft_print_route(t_route **route);
-void	ft_print_output(farm *farm);
+// void	ft_print_output(t_farm *farm);
 
 #endif

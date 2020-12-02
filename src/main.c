@@ -6,16 +6,16 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:55:25 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 20:46:35 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/02 21:13:05 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
-void	ft_add_line(farm *farm, char **str)
+void	ft_add_line(t_farm *farm, char **str)
 {
 	char	**new_output;
-	int	i;
+	int		i;
 
 	i = -1;
 	new_output = NULL;
@@ -39,15 +39,11 @@ void	ft_add_line(farm *farm, char **str)
 	}
 }
 
-void	error_one()
+void	error_one(void)
 {
 	write(1, "ERROR\n", 6);
 	exit(0);
 }
-
-/*
- ** функция хэширования - принимает имя и возвращает индукс в хэш-таблице
-*/
 
 int		ft_hasher(char *name)
 {
@@ -79,10 +75,11 @@ t_node	*ft_new_list(char *name, int id)
 	return (new_list);
 }
 
-int		main() {
+int		main(void)
+{
 	t_parse	st;
-	farm	farm;
-	room	**binary_rooms;
+	t_farm	farm;
+	t_room	**binary_rooms;
 
 	binary_rooms = NULL;
 	ft_bzero(&st, sizeof(t_parse));

@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 20:29:10 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 20:33:50 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/02 21:10:27 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	ft_del_link(t_link **edges)
 	}
 }
 
-void	ft_del_bin_rooms(room ***bin_rooms, int size)
+void	ft_del_bin_rooms(t_room ***bin_rooms, int size)
 {
 	int		i;
-	room	*tmp;
+	t_room	*tmp;
 
 	i = -1;
 	while (++i < size)

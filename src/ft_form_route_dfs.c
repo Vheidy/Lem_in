@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_form_route_dfs.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:08:41 by polina            #+#    #+#             */
-/*   Updated: 2020/12/01 22:22:10 by polina           ###   ########.fr       */
+/*   Updated: 2020/12/02 21:35:43 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 /*
  ** инициализация маршрута - проставляет старт и енд и малочит под вершины
 */
+
 t_route	*ft_init_route(int size, int id_first, int id_last, int fl)
 {
 	t_route	*tmp;
 
-	// if (!fl)
-	// 	printf("ok\n");
 	tmp = malloc(sizeof(t_route));
 	(tmp)->next = NULL;
 	(tmp)->size = size;
@@ -34,27 +33,11 @@ t_route	*ft_init_route(int size, int id_first, int id_last, int fl)
 	return (tmp);
 }
 
-// /*
-//  ** инициализация маршрута - проставляет старт и енд и малочит под вершины
-// */
-// t_route	*ft_init_route(farm *farm, room **bin_rooms, int id)
-// {
-// 	t_route	*tmp;
-
-// 	tmp = malloc(sizeof(t_route));
-// 	(tmp)->next = NULL;
-// 	(tmp)->size = bin_rooms[farm->rooms[farm->id_end]->in]->level + 1;
-// 	(tmp)->tops = malloc(sizeof(int) * (tmp)->size);
-// 	(tmp)->tops[0] = farm->rooms[farm->id_start]->out;
-// 	(tmp)->tops[1] = id;
-// 	(tmp)->count_ants = 0;
-// 	return (tmp);
-// }
-
 /*
  ** заполнение потоком маршрута
 */
-void	ft_full_route(t_route **route, room **bin_rooms, farm *farm)
+
+void	ft_full_route(t_route **route, t_room **bin_rooms, t_farm *farm)
 {
 	int		i;
 	int		id;
@@ -65,7 +48,7 @@ void	ft_full_route(t_route **route, room **bin_rooms, farm *farm)
 	edges = NULL;
 	tmp = *route;
 	while ((tmp)->next)
-			(tmp) = (tmp)->next;
+		(tmp) = (tmp)->next;
 	id = (tmp)->tops[1];
 	while (id != farm->rooms[farm->id_end]->in)
 	{
@@ -81,7 +64,9 @@ void	ft_full_route(t_route **route, room **bin_rooms, farm *farm)
 /*
  ** вспомогательная функция для создания маршрута
 */
-void	ft_support_create_route(t_link *edges, room **bin_rooms, farm *farm, t_route **res)
+
+void	ft_support_create_route(t_link *edges, t_room **bin_rooms, \
+t_farm *farm, t_route **res)
 {
 	t_route	*tmp;
 
@@ -90,13 +75,15 @@ void	ft_support_create_route(t_link *edges, room **bin_rooms, farm *farm, t_rout
 	{
 		tmp = *res;
 		if (!*res)
-			*res = ft_init_route(bin_rooms[farm->rooms[farm->id_end]->in]->level + 1, \
+			*res = ft_init_route(bin_rooms[farm->rooms[farm->id_end]->in]\
+			->level + 1, \
 			farm->rooms[farm->id_start]->out, edges->curr, 1);
 		else
 		{
 			while (tmp->next)
 				tmp = tmp->next;
-			tmp->next = ft_init_route(bin_rooms[farm->rooms[farm->id_end]->in]->level + 1, \
+			tmp->next = ft_init_route(bin_rooms[farm->rooms\
+			[farm->id_end]->in]->level + 1, \
 			farm->rooms[farm->id_start]->out, edges->curr, 1);
 		}
 		bin_rooms[edges->curr]->visited = 1;
@@ -107,7 +94,8 @@ void	ft_support_create_route(t_link *edges, room **bin_rooms, farm *farm, t_rout
 /*
  ** создание пути
 */
-t_route	*ft_create_route(room **bin_rooms, farm *farm)
+
+t_route	*ft_create_route(t_room **bin_rooms, t_farm *farm)
 {
 	t_route	*res;
 	t_link	*edges;
@@ -119,14 +107,14 @@ t_route	*ft_create_route(room **bin_rooms, farm *farm)
 		ft_support_create_route(edges, bin_rooms, farm, &res);
 		edges = edges->next;
 	}
-	// ft_print_route(&res, farm);
 	return (res);
 }
 
 /*
  ** проверка относятся ли две вершины к инпуту и аутпуту одной комнаты
 */
-int		ft_check_one_top(farm *farm, int id_f, int id_s)
+
+int		ft_check_one_top(t_farm *farm, int id_f, int id_s)
 {
 	int	i;
 
@@ -155,7 +143,8 @@ int		ft_check_one_top(farm *farm, int id_f, int id_s)
 /*
  ** вспомогательная функция для обхода в глубину
 */
-void	ft_full_flow_dfs(room ***rooms, t_link *edges, farm *farm, int id)
+
+void	ft_full_flow_dfs(t_room ***rooms, t_link *edges, t_farm *farm, int id)
 {
 	t_link	*tmp;
 
@@ -173,7 +162,8 @@ void	ft_full_flow_dfs(room ***rooms, t_link *edges, farm *farm, int id)
 /*
  ** обход в глубину
 */
-int		ft_dfs(room ***rooms, int id_end, int id, farm *farm)
+
+int		ft_dfs(t_room ***rooms, int id_end, int id, t_farm *farm)
 {
 	t_link	*edges;
 	int		pushed;

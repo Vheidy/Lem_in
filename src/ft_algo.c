@@ -41,7 +41,7 @@ void	ft_add_deque(t_node **deque, int id)
 /*
  ** обход в ширину
 */
-int		ft_bfs(t_node **deque, room ***rooms, int id_end)
+int		ft_bfs(t_node **deque, t_room ***rooms, int id_end)
 {
 	t_link	*edges;
 	int		curr_id;
@@ -71,7 +71,7 @@ int		ft_bfs(t_node **deque, room ***rooms, int id_end)
 	return (0);
 }
 
-void	ft_transform_bin_route(t_route **best, farm *farm, int count)
+void	ft_transform_bin_route(t_route **best, t_farm *farm, int count)
 {
 	t_route	*res;
 	t_route	*tmp;
@@ -109,7 +109,7 @@ void	ft_transform_bin_route(t_route **best, farm *farm, int count)
  ** алгоритм нахождения оптимального пути для текущего количества муравьев
  ** проверка на наличие пути от старта к финишу
 */
-void	ft_algo(farm *farm, room ***bin_rooms)
+void	ft_algo(t_farm *farm, t_room ***bin_rooms)
 {
 	t_node	*deque;
 	t_route	*best;
@@ -131,10 +131,7 @@ void	ft_algo(farm *farm, room ***bin_rooms)
 	if (!best)
 		error_one();
 	ft_transform_bin_route(&best, farm, count);
-	// ft_print_route(&best, farm);
-	// ft_print_farm(farm);
 	ft_del_bin_rooms(bin_rooms, (farm->count_rooms * 2 - 2));
-	ft_print_output(farm);
 	ft_move_print_ants(farm, best);
 	ft_del_farm(farm);
 	ft_del_route(&best);

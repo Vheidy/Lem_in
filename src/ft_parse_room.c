@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:19 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 19:55:42 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/02 21:32:08 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 /*
  ** проверка на существование уже такого имени (если существет - 0)
 */
+
 int		ft_check_name(t_node *hash_tab[HT_SIZE], char *name)
 {
-	int	i;
-	t_node *tmp;
+	int		i;
+	t_node	*tmp;
 
 	i = ft_hasher(name);
 	tmp = hash_tab[i];
@@ -33,19 +34,10 @@ int		ft_check_name(t_node *hash_tab[HT_SIZE], char *name)
 			tmp = tmp->next;
 		}
 	}
-	// if (!ft_strcmp(name, "Hqr7"))
-	// 	ft_print_tab(hash_tab);
-	// if (!ft_strcmp(name, "Iwa8"))
-	// 	printf("here\n");
 	return (1);
 }
 
-/*
- ** возвращает имя комнаты - (проверка на валдиность строки с комнатой) - 
- ** проверка на валидность координат, первый символ, 
- ** и проверка на существование комнаты с таким именем
-*/
-char	*ft_check_room(char *str, t_node *hash_tab[HT_SIZE], farm *farm)
+char	*ft_check_room(char *str, t_node *hash_tab[HT_SIZE], t_farm *farm)
 {
 	char			*name;
 	long long int	elem_first;
@@ -57,13 +49,12 @@ char	*ft_check_room(char *str, t_node *hash_tab[HT_SIZE], farm *farm)
 	if (!(tmp_space = ft_strchr(str, ' ')))
 		return (NULL);
 	len = ft_strlen(tmp_space);
-	if (!(name = ft_strsub(str, 0, tmp_space - str)) || name[0] == 'L') // malloc
+	if (!(name = ft_strsub(str, 0, tmp_space - str)) || name[0] == 'L')
 		error_one();
-	while (--len >= 0){
+	while (--len >= 0)
 		if (!(tmp_space[len] >= '0' && \
 		tmp_space[len] <= '9') && tmp_space[len] != ' ')
 			return (NULL);
-	}
 	elem_first = ft_atoi(tmp_space);
 	tmp_space = ft_strchr(tmp_space, ' ');
 	elem_sec = ft_atoi(tmp_space);
@@ -77,18 +68,16 @@ char	*ft_check_room(char *str, t_node *hash_tab[HT_SIZE], farm *farm)
 /*
  ** проверяет на валидность следующую строку и возвращает ее имя
 */
-char	*ft_check_next_room(char **buf, t_node *hash_tab[HT_SIZE], farm *farm)
+
+char	*ft_check_next_room(char **buf, t_node *hash_tab[HT_SIZE], t_farm *farm)
 {
 	int		red;
 	char	*name;
 
 	name = NULL;
-	// printf("%s\n", *buf);
 	ft_add_line(farm, buf);
-	// ft_print_output(farm);
 	if ((red = get_next_line(0, buf)))
 	{
-	// printf("oooKOKOK\n");
 		if (!(name = ft_check_room(*buf, hash_tab, farm)))
 			error_one();
 	}
@@ -98,9 +87,10 @@ char	*ft_check_next_room(char **buf, t_node *hash_tab[HT_SIZE], farm *farm)
 }
 
 /*
- ** добавление комнаты в хэш-таблицу  
+ ** добавление комнаты в хэш-таблицу
  ** - если по этому индексу уже есть имя, то в след лист
 */
+
 void	ft_add_in_hash_tab(char *name, t_parse *st, int id)
 {
 	int		index;
@@ -108,8 +98,6 @@ void	ft_add_in_hash_tab(char *name, t_parse *st, int id)
 
 	index = ft_hasher(name);
 	tmp = st->hash_tab[index];
-	// if (index == 216)
-	// 	printf("%s\n", name);
 	if (!st->hash_tab[index])
 		st->hash_tab[index] = ft_new_list(name, id);
 	else
@@ -119,17 +107,13 @@ void	ft_add_in_hash_tab(char *name, t_parse *st, int id)
 		tmp->next = ft_new_list(name, id);
 	}
 	st->count_rooms++;
-	// if (index == 216)
-	// {
-	// 	free(st->hash_tab[index]->name);
-	// 	exit(0);
-	// }
 }
 
 /*
  ** считывает комнаты и если видит связь ставит флаг
 */
-int		ft_parse_room(t_parse *st, int fl, char **buf, farm *farm)
+
+int		ft_parse_room(t_parse *st, int fl, char **buf, t_farm *farm)
 {
 	int		id;
 	char	*name;
@@ -138,13 +122,12 @@ int		ft_parse_room(t_parse *st, int fl, char **buf, farm *farm)
 	id = 0;
 	while (!fl && (red = get_next_line(0, buf)))
 	{
-		// printf("%s\n", *buf);
 		if (*buf[0] == '#' && !fl)
 		{
 			if (!ft_strcmp(*buf, "##start"))
 				ft_add_in_hash_tab((st->start = \
 				ft_check_next_room(buf, st->hash_tab, farm)), st, id++);
-			else if (!ft_strcmp(*buf,  "##end"))
+			else if (!ft_strcmp(*buf, "##end"))
 				ft_add_in_hash_tab((st->end = \
 				ft_check_next_room(buf, st->hash_tab, farm)), st, id++);
 			else

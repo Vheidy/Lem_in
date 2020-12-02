@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:41 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 19:55:04 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/02 21:27:08 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,16 @@
  ** создает комнату (1 малок)
 */
 
-room	*ft_create_room(int id, char *name)
+t_room	*ft_create_room(int id, char *name)
 {
-	room	*new_room;
+	t_room	*new_room;
 
-	new_room = ft_memalloc(sizeof(room));
+	new_room = ft_memalloc(sizeof(t_room));
 	new_room->id = id;
 	new_room->level = -1;
 	new_room->visited = 0;
 	new_room->in = -1;
 	new_room->out = -1;
-	// new_room->name = name;
 	new_room->name = ft_strdup(name);
 	return (new_room);
 }
@@ -35,11 +34,11 @@ room	*ft_create_room(int id, char *name)
  ** заполняет новую структуру комнатами из хэш-таблицы
 */
 
-void	ft_farm_set_room(room **rooms, int count, t_parse *st)
+void	ft_farm_set_room(t_room **rooms, int count, t_parse *st)
 {
-	int	i;
-	int count_room;
-	t_node *tmp;
+	int		i;
+	int		count_room;
+	t_node	*tmp;
 
 	i = -1;
 	count_room = 0;
@@ -78,30 +77,29 @@ t_node	*ft_get_elem(char *name, t_node *hash_tab[HT_SIZE])
 }
 
 /*
- ** инициализация структуры 
+ ** инициализация структуры
 */
 
-int		ft_init_farm(farm *farm, t_parse *st)
+int		ft_init_farm(t_farm *farm, t_parse *st)
 {
 	if (!st->start || !st->end)
 		error_one();
 	farm->id_start = ft_get_elem(st->start, st->hash_tab)->id;
 	farm->id_end = ft_get_elem(st->end, st->hash_tab)->id;
-	// printf("id_end: %d\n", farm->id_end);
 	farm->count_rooms = st->count_rooms;
 	farm->count_ants = st->num_ant;
-	if (!(farm->rooms = malloc(sizeof(room *) * st->count_rooms)))
+	if (!(farm->rooms = malloc(sizeof(t_room *) * st->count_rooms)))
 		error_one();
 	ft_farm_set_room(farm->rooms, farm->count_rooms, st);
 	return (1);
 }
 
 /*
- ** общая функция считывания - считывает количество муравьев и элементов и 
+ ** общая функция считывания - считывает количество муравьев и элементов и
  ** передает дальше для считывания комнат и связей
 */
 
-int		ft_read(t_parse *st, farm *farm)
+int		ft_read(t_parse *st, t_farm *farm)
 {
 	int		red;
 	char	*buf;
@@ -109,20 +107,13 @@ int		ft_read(t_parse *st, farm *farm)
 
 	fl = 0;
 	ft_read_ants(&buf, st, farm);
-	// printf("OUTPUT\n%s\n", farm->output[0]);
 	if (!ft_parse_room(st, fl, &buf, farm))
-			error_one();
-	// printf("oooKOKOK\n");
+		error_one();
 	ft_parse_link(buf, farm, st);
-	// ft_add_line(farm, &buf);
 	while ((red = get_next_line(0, &buf)))
 	{
-		// printf("%s\n", buf);
-		if(buf[0] != '#')
-		{
+		if (buf[0] != '#')
 			ft_parse_link(buf, farm, st);
-			// printf("OOOOK\n");
-		}
 		ft_add_line(farm, &buf);
 	}
 	return (0);
