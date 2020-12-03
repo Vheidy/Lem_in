@@ -6,11 +6,11 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 19:19:27 by polina            #+#    #+#             */
-/*   Updated: 2020/12/02 21:22:18 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/03 19:29:19 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lem_in.h"
+#include "lem_in.h"
 
 void	ft_del_farm(t_farm *farm)
 {

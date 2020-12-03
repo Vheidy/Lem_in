@@ -6,11 +6,11 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 18:18:13 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 21:25:24 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/03 23:33:17 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lem_in.h"
+#include "lem_in.h"
 
 void	ft_init_ants(t_farm *farm)
 {
@@ -48,19 +48,24 @@ void	ft_print_ants(t_farm *farm)
 {
 	int		i;
 	int		fl;
+	t_farm tmp;
+	
 
 	i = -1;
-	while (++i < farm->count_ants)
+	tmp = *farm;
+	while (++i < tmp.count_ants)
 	{
 		fl = 0;
-		if (farm->ants[i].current != -1)
+		if (tmp.ants[i].current != -1)
 		{
+			if (i == 1)
+				printf("CUUUURRR %d\n", tmp.ants[i].current);
 			ft_printf("L%d-%s", i + 1, \
-			farm->rooms[farm->ants[i].current]->name);
+			tmp.rooms[tmp.ants[i].current]->name);
 			fl = 1;
 		}
-		if (fl)
-			ft_printf(" ");
+		// if (fl)
+		// 	ft_printf(" ");
 	}
 	ft_printf("\n");
 }
@@ -76,6 +81,7 @@ void	ft_support_move_print(t_farm *farm, t_route *best, int *index)
 		if (tmp->count_ants)
 		{
 			farm->ants[*index].current = tmp->tops[1];
+			printf("index = %d, curr = %d\n", *index, farm->ants[*index].current);
 			farm->ants[*index].tops = tmp->tops;
 			farm->ants[(*index)++].size = tmp->size;
 			tmp->count_ants--;

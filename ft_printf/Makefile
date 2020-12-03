@@ -32,7 +32,7 @@ all: $(NAME)
 $(OBJ_DIR):
 		@mkdir -p $(OBJ_DIR)
 
-$(NAME): $(OBJ_DIR) $(OBJ) 
+$(NAME): $(OBJ_DIR) $(OBJ)
 	@make -C $(LIB_DIR)
 	@cp $(LIB_DIR)$(LIBFTA) .
 	@mv $(LIBFTA) $(NAME)

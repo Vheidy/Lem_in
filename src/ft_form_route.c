@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_form_route_dfs.c                                :+:      :+:    :+:   */
+/*   ft_form_route.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:08:41 by polina            #+#    #+#             */
-/*   Updated: 2020/12/03 18:53:35 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/03 23:16:36 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lem_in.h"
+#include "lem_in.h"
 
 /*
  ** заполнение потоком маршрута
@@ -27,7 +27,9 @@ void	ft_full_route(t_route **route, t_room **bin_rooms, t_farm *farm)
 	edges = NULL;
 	tmp = *route;
 	while ((tmp)->next)
+	{
 		(tmp) = (tmp)->next;
+	}
 	id = (tmp)->tops[1];
 	while (id != farm->rooms[farm->id_end]->in)
 	{
@@ -37,53 +39,49 @@ void	ft_full_route(t_route **route, t_room **bin_rooms, t_farm *farm)
 		(tmp)->tops[++i + 1] = edges->curr;
 		id = edges->curr;
 	}
-	tmp->size = i + 2;
+	(tmp)->size = i + 2;
 }
 
 /*
  ** вспомогательная функция для создания маршрута
 */
 
-void	ft_support_create_route(t_link *edges, t_room **bin_rooms, \
+void	ft_support_create_route(t_link *edges, t_room ***bin_rooms, \
 t_farm *farm, t_route **res)
 {
 	t_route	*tmp;
 
-	tmp = NULL;
-	if (edges->flow == 1 && bin_rooms[edges->curr]->visited == 0)
+	tmp = *res;
+	if (!*res)
 	{
-		tmp = *res;
-		if (!*res)
-			*res = ft_init_route(bin_rooms[farm->rooms[farm->id_end]->in]\
-			->level + 1, \
-			farm->rooms[farm->id_start]->out, edges->curr, 1);
-		else
-		{
-			while (tmp->next)
-				tmp = tmp->next;
-			tmp->next = ft_init_route(bin_rooms[farm->rooms\
-			[farm->id_end]->in]->level + 1, \
-			farm->rooms[farm->id_start]->out, edges->curr, 1);
-		}
-		bin_rooms[edges->curr]->visited = 1;
-		ft_full_route(res, bin_rooms, farm);
+		*res = ft_init_route(((*bin_rooms)[farm->rooms[farm->id_end]->in]->level + 1), farm->rooms[farm->id_start]->out, edges->curr, 1);
 	}
+	else
+	{
+		while ((tmp)->next)
+			(tmp) = (tmp)->next;
+		(tmp)->next = ft_init_route((*bin_rooms)[farm->rooms[farm->id_end]->in]->level + 1, farm->rooms[farm->id_start]->out, edges->curr, 1);
+	}
+	(*bin_rooms)[edges->curr]->visited = 1;
+	ft_full_route(res, *bin_rooms, farm);
+	ft_print_route(*res);
 }
 
 /*
  ** создание пути
 */
 
-t_route	*ft_create_route(t_room **bin_rooms, t_farm *farm)
+t_route	*ft_create_route(t_room ***bin_rooms, t_farm *farm)
 {
 	t_route	*res;
 	t_link	*edges;
 
 	res = NULL;
-	edges = bin_rooms[farm->rooms[farm->id_start]->out]->edges;
+	edges = (*bin_rooms)[farm->rooms[farm->id_start]->out]->edges;
 	while (edges)
 	{
-		ft_support_create_route(edges, bin_rooms, farm, &res);
+		if (edges->flow == 1 && (*bin_rooms)[edges->curr]->visited == 0)
+			ft_support_create_route(edges, bin_rooms, farm, &res);
 		edges = edges->next;
 	}
 	return (res);
@@ -115,54 +113,6 @@ int		ft_check_one_top(t_farm *farm, int id_f, int id_s)
 			else
 				return (0);
 		}
-	}
-	return (0);
-}
-
-/*
- ** вспомогательная функция для обхода в глубину
-*/
-
-void	ft_full_flow_dfs(t_room ***rooms, t_link *edges, t_farm *farm, int id)
-{
-	t_link	*tmp;
-
-	tmp = NULL;
-	edges->flow += 1;
-	if (!ft_check_one_top(farm, id, edges->curr))
-	{
-		tmp = (*rooms)[edges->curr]->edges;
-		while (tmp->curr != id)
-			tmp = tmp->next;
-		tmp->flow -= 1;
-	}
-}
-
-/*
- ** обход в глубину
-*/
-
-int		ft_dfs(t_room ***rooms, int id_end, int id, t_farm *farm)
-{
-	t_link	*edges;
-	int		pushed;
-
-	edges = (*rooms)[id]->edges;
-	if (id == id_end)
-		return (1);
-	while (edges)
-	{
-		if ((*rooms)[edges->curr]->level == (*rooms)[id]->level + 1 \
-		&& (edges->cap - edges->flow > 0))
-		{
-			pushed = ft_dfs(rooms, id_end, edges->curr, farm);
-			if (pushed)
-			{
-				ft_full_flow_dfs(rooms, edges, farm, id);
-				return (pushed);
-			}
-		}
-		edges = edges->next;
 	}
 	return (0);
 }

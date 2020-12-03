@@ -6,7 +6,7 @@
 #    By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/09 21:38:06 by vheidy            #+#    #+#              #
-#    Updated: 2020/12/02 20:23:57 by vheidy           ###   ########.fr        #
+#    Updated: 2020/12/03 20:09:03 by vheidy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,17 +31,19 @@ ft_atoi_base.c ft_put_n_line_char.c
 
 HEADER = libft.h
 
+COMP =	gcc -Wall -Werror -Wextra
+
 OFILE = $(SRC:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OFILE) $(HEADER)
-	@gcc -Wall -Wextra -Werror -c $(SRC)
 	@ar -rc $(NAME) $(OFILE)
 	@echo -------compile library finish----------
 
 $(OFILE): %.o: %.c $(HEADER)
-	@gcc -Wall -Wextra -Werror -c $< -o $@ -g
+	@$(COMP) -c $< -o $@
+
 clean:
 	@rm -f $(OFILE)
 

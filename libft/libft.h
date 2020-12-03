@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 21:24:59 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 20:20:41 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/03 20:09:18 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ void				*ft_memcpy(void *dst, const void *src, size_t n);
 
 int					ft_atoi_base(const char *nbr, unsigned int base);
 size_t				ft_base_intlen(t_ull_int n, int base);
-char				*ft_itoa_unsig_base(t_ull_int value, int base, int num, int reg);
+char				*ft_itoa_unsig_base(t_ull_int value, int base, \
+int num, int reg);
 char				*ft_itoa_base(t_ll_int value, int base, int num);
 size_t				ft_intlen(t_ll_int n);
 int					ft_power(int num, int power);

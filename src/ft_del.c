@@ -6,11 +6,11 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 20:29:10 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 21:10:27 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/03 19:28:51 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lem_in.h"
+#include "lem_in.h"
 
 void	ft_del_link(t_link **edges)
 {
