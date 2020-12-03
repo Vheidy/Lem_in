@@ -6,92 +6,61 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:41 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 21:27:08 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/03 18:51:55 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
 /*
- ** создает комнату (1 малок)
+ ** добавление комнаты в хэш-таблицу
+ ** - если по этому индексу уже есть имя, то в след лист
 */
 
-t_room	*ft_create_room(int id, char *name)
-{
-	t_room	*new_room;
-
-	new_room = ft_memalloc(sizeof(t_room));
-	new_room->id = id;
-	new_room->level = -1;
-	new_room->visited = 0;
-	new_room->in = -1;
-	new_room->out = -1;
-	new_room->name = ft_strdup(name);
-	return (new_room);
-}
-
-/*
- ** заполняет новую структуру комнатами из хэш-таблицы
-*/
-
-void	ft_farm_set_room(t_room **rooms, int count, t_parse *st)
-{
-	int		i;
-	int		count_room;
-	t_node	*tmp;
-
-	i = -1;
-	count_room = 0;
-	tmp = NULL;
-	while (count_room < count && ++i < HT_SIZE)
-		if (st->hash_tab[i])
-		{
-			tmp = st->hash_tab[i];
-			rooms[tmp->id] = ft_create_room(tmp->id, tmp->name);
-			count_room++;
-			while (tmp->next)
-			{
-				tmp = tmp->next;
-				rooms[tmp->id] = ft_create_room(tmp->id, tmp->name);
-				count_room++;
-			}
-		}
-}
-
-/*
- ** возвращает указатель на лист с переданным именем
-*/
-
-t_node	*ft_get_elem(char *name, t_node *hash_tab[HT_SIZE])
+void	ft_add_in_hash_tab(char *name, t_parse *st, int id)
 {
 	int		index;
 	t_node	*tmp;
 
 	index = ft_hasher(name);
-	tmp = hash_tab[index];
-	while (tmp->next && ft_strcmp(tmp->name, name))
-		tmp = tmp->next;
-	if (!tmp->next && ft_strcmp(tmp->name, name))
-		error_one();
-	return (tmp);
+	tmp = st->hash_tab[index];
+	if (!st->hash_tab[index])
+		st->hash_tab[index] = ft_new_list(name, id);
+	else
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = ft_new_list(name, id);
+	}
+	st->count_rooms++;
 }
 
 /*
- ** инициализация структуры
+ ** считывание муравьев и проверка что в первой строке число
 */
 
-int		ft_init_farm(t_farm *farm, t_parse *st)
+void	ft_read_ants(char **buf, t_parse *st, t_farm *farm)
 {
-	if (!st->start || !st->end)
+	int		red;
+	char	*tmp;
+
+	red = 0;
+	tmp = 0;
+	if ((red = get_next_line(0, buf)))
+	{
+		tmp = *buf;
+		while (*tmp)
+		{
+			if (!ft_isdigit(*tmp))
+				error_one();
+			tmp++;
+		}
+		if (!(st->num_ant = ft_atoi(*buf)))
+			error_one();
+		ft_add_line(farm, buf);
+	}
+	else
 		error_one();
-	farm->id_start = ft_get_elem(st->start, st->hash_tab)->id;
-	farm->id_end = ft_get_elem(st->end, st->hash_tab)->id;
-	farm->count_rooms = st->count_rooms;
-	farm->count_ants = st->num_ant;
-	if (!(farm->rooms = malloc(sizeof(t_room *) * st->count_rooms)))
-		error_one();
-	ft_farm_set_room(farm->rooms, farm->count_rooms, st);
-	return (1);
 }
 
 /*

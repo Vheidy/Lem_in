@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 21:25:29 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/03 18:58:52 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void	ft_set_null_visited(t_farm *farm, t_room ***rooms);
 t_room	*ft_create_room(int id, char *name);
 // void	ft_form_route(t_route **route, int id, farm *farm);
 t_link	*ft_new_link(int id_f, int id_s, int cap);
+char	*ft_check_next_room(char **buf, t_node *hash_tab[HT_SIZE], t_farm *farm);
 void	ft_algo(t_farm *farm, t_room ***bin_rooms);
 void	ft_read_ants(char **buf, t_parse *st, t_farm *farm);
 int		ft_check_name(t_node *hash_tab[HT_SIZE], char *name);
@@ -130,6 +131,8 @@ int		ft_read(t_parse *st, t_farm	*farm);
 void	error_one();
 int		ft_hasher(char *name);
 t_node	*ft_new_list(char *name, int id);
+
+void	ft_add_in_hash_tab(char *name, t_parse *st, int id);
 
 /*
 ** Debug functions

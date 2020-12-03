@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 19:16:57 by polina            #+#    #+#             */
-/*   Updated: 2020/12/02 21:36:18 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/03 18:54:50 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
  ** нахождение оптимального маршрута
 */
+
 t_route	*ft_find_min_route(t_route **route)
 {
 	t_route	*tmp;
@@ -28,13 +29,13 @@ t_route	*ft_find_min_route(t_route **route)
 			res = tmp;
 		tmp = tmp->next;
 	}
-	// printf("ok\n");
-	// printf("Res size %d\n", res->size);
 	return (res);
 }
+
 /*
  ** подсчет количества ходов по каждому из путей для текущего кол-ва муравьев
 */
+
 int		ft_count_move(t_route **route, t_farm *farm)
 {
 	int		ants;
@@ -42,23 +43,20 @@ int		ft_count_move(t_route **route, t_farm *farm)
 	t_route	*first;
 
 	ants = farm->count_ants;
-	// printf("Size route %d\n", (*route)->size);
 	first = ft_find_min_route(route);
-	// printf("farm c a: %d\n", farm->count_ants);
 	first->count_ants = 1;
 	while (--ants)
 	{
-		// printf("%d\n", ants);
 		tmp = ft_find_min_route(route);
 		tmp->count_ants++;
 	}
-	// printf("count ants: %d, size %d\n", first->count_ants, first->size);
 	return (first->count_ants + first->size / 2);
 }
 
 /*
  ** выбор луучшего маршрута между текущим и новым
 */
+
 void	ft_choose_best(t_route **best, t_room ***bin_rooms, t_farm *farm)
 {
 	t_route	*curr_route;
@@ -75,7 +73,6 @@ void	ft_choose_best(t_route **best, t_room ***bin_rooms, t_farm *farm)
 	}
 	else
 	{
-		
 		best_res = ft_count_move(best, farm);
 		curr_res = ft_count_move(&curr_route, farm);
 		if (curr_res < best_res)
@@ -86,6 +83,5 @@ void	ft_choose_best(t_route **best, t_room ***bin_rooms, t_farm *farm)
 		}
 		else
 			ft_del_route(&curr_route);
-		
 	}
 }

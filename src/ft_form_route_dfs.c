@@ -6,32 +6,11 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:08:41 by polina            #+#    #+#             */
-/*   Updated: 2020/12/02 21:35:43 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/03 18:53:35 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
-
-/*
- ** инициализация маршрута - проставляет старт и енд и малочит под вершины
-*/
-
-t_route	*ft_init_route(int size, int id_first, int id_last, int fl)
-{
-	t_route	*tmp;
-
-	tmp = malloc(sizeof(t_route));
-	(tmp)->next = NULL;
-	(tmp)->size = size;
-	(tmp)->tops = malloc(sizeof(int) * (tmp)->size);
-	(tmp)->tops[0] = id_first;
-	if (!fl)
-		(tmp)->tops[tmp->size - 1] = id_last;
-	else
-		(tmp)->tops[1] = id_last;
-	(tmp)->count_ants = 0;
-	return (tmp);
-}
 
 /*
  ** заполнение потоком маршрута

@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 19:29:35 by polina            #+#    #+#             */
-/*   Updated: 2020/12/02 21:38:05 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/03 18:55:49 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
  ** добавляет линки к бинарникам
 */
+
 void	ft_add_bin_link(t_room ***rooms, int id_first, int id_sec, \
 int cap)
 {
@@ -34,6 +35,7 @@ int cap)
 /*
  ** создает инпут и аутпут как отдельные комнаты
 */
+
 void	ft_create_in_out(int i, t_room ***bin_rooms, \
 t_farm *farm, int *binary_id)
 {
@@ -58,6 +60,7 @@ t_farm *farm, int *binary_id)
 /*
  ** раздваивает вершины по инпутам и аутпутам
 */
+
 void	ft_create_binary_tops(t_farm *farm, t_room ***binary_rooms)
 {
 	int	i;
@@ -80,6 +83,7 @@ void	ft_create_binary_tops(t_farm *farm, t_room ***binary_rooms)
 /*
  ** добавление связи между ин и аут с проставление капэсити
 */
+
 void	ft_add_link_between_inout(t_farm *farm, \
 t_room ***bin_rooms, int fl, int i)
 {
@@ -92,11 +96,12 @@ t_room ***bin_rooms, int fl, int i)
 		if (!fl)
 		{
 			if (farm->rooms[edges->curr]->out != -1)
-				ft_add_bin_link(bin_rooms, farm->rooms[i]->in, farm->rooms[edges->curr]->out, 0);
+				ft_add_bin_link(bin_rooms, farm->rooms[i]->in, \
+				farm->rooms[edges->curr]->out, 0);
 		}
 		else if (farm->rooms[edges->curr]->in != -1)
-					ft_add_bin_link(bin_rooms, farm->rooms[i]->out, \
-					farm->rooms[edges->curr]->in, 1);
+			ft_add_bin_link(bin_rooms, farm->rooms[i]->out, \
+			farm->rooms[edges->curr]->in, 1);
 		edges = edges->next;
 	}
 }
@@ -104,9 +109,10 @@ t_room ***bin_rooms, int fl, int i)
 /*
  ** добавление связи между ин и аут
 */
+
 void	ft_link_binary_tops(t_farm *farm, t_room ***bin_rooms)
 {
-	int	i;
+	int		i;
 	t_link	*edges;
 
 	i = -1;

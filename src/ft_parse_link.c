@@ -6,39 +6,11 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:09 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 21:33:44 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/03 18:50:47 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
-
-/*
- ** считывание муравьев и проверка что в первой строке число
-*/
-
-void	ft_read_ants(char **buf, t_parse *st, t_farm *farm)
-{
-	int		red;
-	char	*tmp;
-
-	red = 0;
-	tmp = 0;
-	if ((red = get_next_line(0, buf)))
-	{
-		tmp = *buf;
-		while (*tmp)
-		{
-			if (!ft_isdigit(*tmp))
-				error_one();
-			tmp++;
-		}
-		if (!(st->num_ant = ft_atoi(*buf)))
-			error_one();
-		ft_add_line(farm, buf);
-	}
-	else
-		error_one();
-}
 
 /*
  ** малочит два имени из линка и проверяет их на существование

@@ -6,7 +6,7 @@
 /*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:44:19 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/02 21:32:08 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/03 18:52:25 by vheidy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,27 +86,16 @@ char	*ft_check_next_room(char **buf, t_node *hash_tab[HT_SIZE], t_farm *farm)
 	return (name);
 }
 
-/*
- ** добавление комнаты в хэш-таблицу
- ** - если по этому индексу уже есть имя, то в след лист
-*/
-
-void	ft_add_in_hash_tab(char *name, t_parse *st, int id)
+void	ft_support_check_room(char **buf, t_parse *st, t_farm *farm, int *id)
 {
-	int		index;
-	t_node	*tmp;
-
-	index = ft_hasher(name);
-	tmp = st->hash_tab[index];
-	if (!st->hash_tab[index])
-		st->hash_tab[index] = ft_new_list(name, id);
+	if (!ft_strcmp(*buf, "##start"))
+		ft_add_in_hash_tab((st->start = \
+		ft_check_next_room(buf, st->hash_tab, farm)), st, (*id)++);
+	else if (!ft_strcmp(*buf, "##end"))
+		ft_add_in_hash_tab((st->end = \
+		ft_check_next_room(buf, st->hash_tab, farm)), st, (*id)++);
 	else
-	{
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = ft_new_list(name, id);
-	}
-	st->count_rooms++;
+		ft_add_line(farm, buf);
 }
 
 /*
@@ -123,16 +112,7 @@ int		ft_parse_room(t_parse *st, int fl, char **buf, t_farm *farm)
 	while (!fl && (red = get_next_line(0, buf)))
 	{
 		if (*buf[0] == '#' && !fl)
-		{
-			if (!ft_strcmp(*buf, "##start"))
-				ft_add_in_hash_tab((st->start = \
-				ft_check_next_room(buf, st->hash_tab, farm)), st, id++);
-			else if (!ft_strcmp(*buf, "##end"))
-				ft_add_in_hash_tab((st->end = \
-				ft_check_next_room(buf, st->hash_tab, farm)), st, id++);
-			else
-				ft_add_line(farm, buf);
-		}
+			ft_support_check_room(buf, st, farm, &id);
 		else if (!fl && (name = ft_check_room(*buf, st->hash_tab, farm)))
 			ft_add_in_hash_tab(name, st, id++);
 		else if (ft_check_link(*buf, st->hash_tab))
