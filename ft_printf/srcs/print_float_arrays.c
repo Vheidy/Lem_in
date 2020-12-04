@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_float_arrays.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtacos <rtacos@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/04 20:27:13 by rtacos            #+#    #+#             */
-/*   Updated: 2020/07/10 16:20:16 by rtacos           ###   ########.fr       */
+/*   Updated: 2020/12/04 11:11:35 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		ft_count_zero_in_int_part(t_long_num *in, t_type type, int first_size)
 	{
 		count = type.width - 8 * in->real_size - first_size - type.precision;
 		if ((type.f_space || type.f_plus) && !in->sign)
-			count = (count - 1) > 0 ? --count : 0;
+			count = (count - 1) > 0 ? (count - 1) : 0;
 		if (count > 0)
 		{
 			if (type.f_null && !type.f_minus)

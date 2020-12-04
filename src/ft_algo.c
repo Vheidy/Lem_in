@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_algo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 18:56:03 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/03 21:48:06 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/04 11:29:42 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,26 +52,28 @@ void	ft_add_deque(t_node **deque, int id)
 	}
 }
 
-void	ft_support_transform(t_route **tmp, t_route *tmp_best, \
+void	ft_support_transform(t_route **res, t_route *tmp_best, \
 t_farm *farm, int *count)
 {
 	int		i;
 	int		j;
+	t_route	*tmp;
 
 	i = 1;
-	while ((*tmp)->next)
-		*tmp = (*tmp)->next;
-	(*tmp)->count_ants = tmp_best->count_ants;
-	while (*count < (*tmp)->size - 1)
+	tmp = *res;
+	while ((tmp)->next)
+		tmp = (tmp)->next;
+	(tmp)->count_ants = tmp_best->count_ants;
+	while (*count < (tmp)->size - 1)
 	{
 		j = 0;
 		while (farm->rooms[j]->in != tmp_best->tops[i])
 			j++;
-		(*tmp)->tops[(*count)++] = j;
+		(tmp)->tops[(*count)++] = j;
 		i += 2;
 	}
 	if (tmp_best->next)
-		(*tmp)->next = ft_init_route(tmp_best->next->size / 2 + 1, \
+		(tmp)->next = ft_init_route(tmp_best->next->size / 2 + 1, \
 		farm->id_start, farm->id_end, 0);
 }
 
@@ -83,7 +85,6 @@ void	ft_transform_bin_route(t_route **best, t_farm *farm)
 {
 	t_route	*res;
 	t_route	*tmp_best;
-	t_route	*tmp;
 	int		count;
 
 	tmp_best = *best;
@@ -92,8 +93,8 @@ void	ft_transform_bin_route(t_route **best, t_farm *farm)
 	farm->id_end, 0);
 	while (tmp_best)
 	{
-		tmp = res;
-		ft_support_transform(&tmp, tmp_best, farm, &count);
+		count = 1;
+		ft_support_transform(&res, tmp_best, farm, &count);
 		tmp_best = tmp_best->next;
 	}
 	ft_del_route(best);
@@ -126,8 +127,8 @@ void	ft_algo(t_farm *farm, t_room ***bin_rooms)
 	if (!best)
 		error_one();
 	ft_transform_bin_route(&best, farm);
-	ft_del_bin_rooms(bin_rooms, (farm->count_rooms * 2 - 2));
 	ft_move_print_ants(farm, best);
+	ft_del_bin_rooms(bin_rooms, (farm->count_rooms * 2 - 2));
 	ft_del_farm(farm);
 	ft_del_route(&best);
 }

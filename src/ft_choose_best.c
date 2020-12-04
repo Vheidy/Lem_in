@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_choose_best.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 19:16:57 by polina            #+#    #+#             */
-/*   Updated: 2020/12/03 22:13:29 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/04 11:29:59 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,12 @@ t_route	*ft_find_min_route(t_route **route)
 
 	res = *route;
 	tmp = *route;
-	// printf("RES ants %d\n", res->count_ants);
 	while (tmp)
 	{
 		if (tmp->size / 2 + tmp->count_ants < res->size / 2 + res->count_ants)
 			res = tmp;
 		tmp = tmp->next;
 	}
-	// ft_print_route(res);
 	return (res);
 }
 
@@ -53,8 +51,7 @@ int		ft_count_move(t_route **route, t_farm *farm)
 		tmp = ft_find_min_route(route);
 		tmp->count_ants++;
 	}
-	printf("C_A %d, SIZE %d\n", tmp->count_ants, tmp->size);
-	return (tmp->count_ants + tmp->size / 2);
+	return (first->count_ants + first->size / 2);
 }
 
 /*
@@ -68,8 +65,6 @@ void	ft_choose_best(t_route **best, t_room ***bin_rooms, t_farm *farm)
 	int		curr_res;
 
 	curr_route = ft_create_route(bin_rooms, farm);
-	printf("new\n");
-	// ft_print_route(curr_route);
 	ft_set_null_visited(farm, bin_rooms);
 	if (!*best)
 	{
@@ -81,7 +76,6 @@ void	ft_choose_best(t_route **best, t_room ***bin_rooms, t_farm *farm)
 	{
 		best_res = ft_count_move(best, farm);
 		curr_res = ft_count_move(&curr_route, farm);
-		printf("Curr %d, best %d\n", curr_res, best_res);
 		if (curr_res < best_res)
 		{
 			farm->count_move = curr_res;

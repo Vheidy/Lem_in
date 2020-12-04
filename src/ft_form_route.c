@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_form_route.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:08:41 by polina            #+#    #+#             */
-/*   Updated: 2020/12/03 23:16:36 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/04 11:32:44 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,18 @@ t_farm *farm, t_route **res)
 	tmp = *res;
 	if (!*res)
 	{
-		*res = ft_init_route(((*bin_rooms)[farm->rooms[farm->id_end]->in]->level + 1), farm->rooms[farm->id_start]->out, edges->curr, 1);
+		*res = ft_init_route(((*bin_rooms)[farm->rooms[farm->id_end]->in]->level \
+		+ 1), farm->rooms[farm->id_start]->out, edges->curr, 1);
 	}
 	else
 	{
 		while ((tmp)->next)
 			(tmp) = (tmp)->next;
-		(tmp)->next = ft_init_route((*bin_rooms)[farm->rooms[farm->id_end]->in]->level + 1, farm->rooms[farm->id_start]->out, edges->curr, 1);
+		(tmp)->next = ft_init_route((*bin_rooms)[farm->rooms[farm->id_end]->in]->level \
+		+ 1, farm->rooms[farm->id_start]->out, edges->curr, 1);
 	}
 	(*bin_rooms)[edges->curr]->visited = 1;
 	ft_full_route(res, *bin_rooms, farm);
-	ft_print_route(*res);
 }
 
 /*

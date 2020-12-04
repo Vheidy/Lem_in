@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <vheidy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:39:58 by vheidy            #+#    #+#             */
-/*   Updated: 2020/12/03 21:39:29 by vheidy           ###   ########.fr       */
+/*   Updated: 2020/12/04 11:32:11 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct		s_farm
 }					t_farm;
 
 void	ft_print_farm(t_farm *farm); //DEL!!
-void	ft_print_route(t_route *route);
+// void	ft_print_route(t_route *route);
 void	ft_print_bin_rooms(t_room ***bin_rooms, t_farm *farm);
 
 void				ft_del_st(t_parse *st);
