@@ -9,7 +9,6 @@ The purpose of this project is to find paths from start room to end room and to 
 * Find all best paths in most cases
 * Move ants by found paths in an optimal way
 * Extended error messages
-* Verbose mode
 
 ### How to run program?
 
