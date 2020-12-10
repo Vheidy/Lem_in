@@ -24,7 +24,7 @@ OBJ_DIR = obj/
 SRCS = ft_parse.c ft_parse_room.c ft_parse_link.c main.c \
 		ft_set_null_and_del.c ft_print_ants.c ft_algo.c \
 		ft_bin_tops.c ft_choose_best.c ft_del.c ft_form_route.c \
-		ft_bfs_and_dfs.c ft_init.c ft_debug.c
+		ft_bfs_and_dfs.c ft_init.c
 
 OFILE =	$(SRCS:%.c=%.o)
 
