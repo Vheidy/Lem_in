@@ -6,100 +6,114 @@
 /*   By: polina <polina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:08:41 by polina            #+#    #+#             */
-/*   Updated: 2020/11/23 16:04:01 by polina           ###   ########.fr       */
+/*   Updated: 2020/12/04 11:32:44 by polina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lem_in.h"
+#include "lem_in.h"
 
 /*
- ** ищет среди соседей нужный и проставлет поток 
- ** нужна чтобы не дублировать код
+ ** заполнение потоком маршрута
 */
-void	ft_find_next(int id_first, int id_sec, farm *farm, int filler)
-{
-	t_link	*tmp;
 
-	tmp = farm->rooms[id_first]->edges;
-	while (tmp->curr != id_sec)
-		tmp = tmp->next;
-	tmp->flow = filler;
-}
-
-/*
- ** заполнение пути 1 и -1
-*/
-void	ft_full_for_route(t_route *route, farm *farm)
+void	ft_full_route(t_route **route, t_room **bin_rooms, t_farm *farm)
 {
 	int		i;
+	int		id;
+	t_link	*edges;
+	t_route	*tmp;
 
-	i = -1;
-	// printf("ok\n");
-	// printf("%d\n", route->size);
-	while (++i + 1 < route->size)
+	i = 0;
+	edges = NULL;
+	tmp = *route;
+	while ((tmp)->next)
 	{
-		if (route->tops[i] != farm->id_start)
-		{
-			farm->rooms[route->tops[i]]->in_out = 1;
-		}
-		ft_find_next(route->tops[i], route->tops[i + 1], farm, 1);
-		ft_find_next(route->tops[i + 1], route->tops[i], farm, -1);
+		(tmp) = (tmp)->next;
 	}
+	id = (tmp)->tops[1];
+	while (id != farm->rooms[farm->id_end]->in)
+	{
+		edges = bin_rooms[id]->edges;
+		while (edges->flow != 1)
+			edges = edges->next;
+		(tmp)->tops[++i + 1] = edges->curr;
+		id = edges->curr;
+	}
+	(tmp)->size = i + 2;
 }
 
 /*
- ** инициализация маршрута - проставляет старт и енд и малочит под вершины
+ ** вспомогательная функция для создания маршрута
 */
-t_route	**ft_init_route(t_route **route, room *tmp_room, farm *farm)
-{
-	t_route	**tmp;
 
-	tmp = route;
-	if (!*tmp)
-		*tmp = malloc(sizeof(t_route));
+void	ft_support_create_route(t_link *edges, t_room ***bin_rooms, \
+t_farm *farm, t_route **res)
+{
+	t_route	*tmp;
+
+	tmp = *res;
+	if (!*res)
+	{
+		*res = ft_init_route(((*bin_rooms)[farm->rooms[farm->id_end]->in]->level \
+		+ 1), farm->rooms[farm->id_start]->out, edges->curr, 1);
+	}
 	else
 	{
-		while ((*tmp)->next)
-			(*tmp) = (*tmp)->next;
-		(*tmp)->next = malloc(sizeof(t_route));
-		(*tmp) = (*tmp)->next;
+		while ((tmp)->next)
+			(tmp) = (tmp)->next;
+		(tmp)->next = ft_init_route((*bin_rooms)[farm->rooms[farm->id_end]->in]->level \
+		+ 1, farm->rooms[farm->id_start]->out, edges->curr, 1);
 	}
-	(*tmp)->next = NULL;
-	(*tmp)->size = tmp_room->level + 2;
-	(*tmp)->tops = malloc(sizeof(int) * (*tmp)->size);
-	(*tmp)->tops[0] = farm->id_start;
-	(*tmp)->tops[tmp_room->level + 1] = farm->id_end;
-	return (tmp);
+	(*bin_rooms)[edges->curr]->visited = 1;
+	ft_full_route(res, *bin_rooms, farm);
 }
 
+/*
+ ** создание пути
+*/
+
+t_route	*ft_create_route(t_room ***bin_rooms, t_farm *farm)
+{
+	t_route	*res;
+	t_link	*edges;
+
+	res = NULL;
+	edges = (*bin_rooms)[farm->rooms[farm->id_start]->out]->edges;
+	while (edges)
+	{
+		if (edges->flow == 1 && (*bin_rooms)[edges->curr]->visited == 0)
+			ft_support_create_route(edges, bin_rooms, farm, &res);
+		edges = edges->next;
+	}
+	return (res);
+}
 
 /*
- ** создание пути и проставление потоков (flow)
+ ** проверка относятся ли две вершины к инпуту и аутпуту одной комнаты
 */
-void	ft_form_route(t_route **route, int id, farm *farm, int fl)
-{
-	int		i;
-	room	*tmp_room;
-	t_link	*tmp_link;
-	t_route	**tmp;
 
-	i = farm->rooms[id]->level + 1;
-	printf("ID: %d\n", id);
-	tmp_room = farm->rooms[id];
-	tmp = ft_init_route(route, tmp_room, farm);
-	printf("Size: %d\n",( *tmp)->size);
-	while (--i > 0)
+int		ft_check_one_top(t_farm *farm, int id_f, int id_s)
+{
+	int	i;
+
+	i = -1;
+	while (++i < farm->count_rooms)
 	{
-		(*tmp)->tops[i] = id;
-		tmp_link = tmp_room->edges;
-		// printf("ok\n");
-		while (fl && (farm->rooms[tmp_link->curr]->level != tmp_room->level - 1))
-			tmp_link = tmp_link->next;
-		while (!fl && (farm->rooms[tmp_link->curr]->visited != tmp_room->visited - 1))
-			tmp_link = tmp_link->next;
-		printf("ok\n");
-		id = farm->rooms[tmp_link->curr]->id;
-		tmp_room = farm->rooms[id];
+		if (farm->rooms[i]->in == id_f || farm->rooms[i]->out == id_f)
+		{
+			if (farm->rooms[i]->in == id_f)
+			{
+				if (farm->rooms[i]->out == id_s)
+					return (1);
+			}
+			else if (farm->rooms[i]->out == id_f)
+			{
+				if (farm->rooms[i]->in == id_s)
+					return (1);
+			}
+			else
+				return (0);
+		}
 	}
-	ft_full_for_route(*route, farm);
+	return (0);
 }

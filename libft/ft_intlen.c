@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcpy.c                                        :+:      :+:    :+:   */
+/*   ft_intlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: rtacos <rtacos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/05 18:20:53 by vheidy            #+#    #+#             */
-/*   Updated: 2019/09/16 19:10:53 by vheidy           ###   ########.fr       */
+/*   Created: 2019/09/16 15:59:14 by rtacos            #+#    #+#             */
+/*   Updated: 2020/07/08 17:19:00 by rtacos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strcpy(char *dst, const char *src)
+size_t	ft_intlen(t_ll_int n)
 {
-	int i;
+	size_t	i;
 
-	i = 0;
-	while (src[i] != '\0')
+	i = (n == 0) ? 1 : 0;
+	while (n)
 	{
-		dst[i] = src[i];
+		n = n / 10;
 		i++;
 	}
-	dst[i] = '\0';
-	return (dst);
+	return (i);
 }

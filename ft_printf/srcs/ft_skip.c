@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_skip.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vheidy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: rtacos <rtacos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/03 15:21:56 by vheidy            #+#    #+#             */
-/*   Updated: 2019/09/18 16:15:27 by vheidy           ###   ########.fr       */
+/*   Created: 2020/07/04 20:26:55 by rtacos            #+#    #+#             */
+/*   Updated: 2020/07/07 20:55:31 by rtacos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/ft_printf.h"
 
-size_t		ft_strlen(const char *s)
+int		ft_skip_size(int size)
 {
-	size_t i;
+	int		i;
 
 	i = 0;
-	while (s[i] != '\0')
-		i++;
+	if (size == HH || size == LL)
+		++i;
 	return (i);
+}
+
+int		ft_zero_skip(const char *format)
+{
+	int		i;
+	int		count;
+
+	i = 0;
+	count = 0;
+	while (format[i++] == '0')
+		count++;
+	return (count);
 }
